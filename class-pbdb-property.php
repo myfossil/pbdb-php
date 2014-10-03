@@ -20,7 +20,7 @@ namespace myFOSSIL\PBDB;
  * @subpackage myFOSSIL_PBDB/includes/pbdb
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
-class PBDB_Property
+class Property
 {
     /**
      * Name of the Property for the 'pbdb' vocabulary.
@@ -28,7 +28,7 @@ class PBDB_Property
      * @since   0.0.1
      * @access  protected
      * @see     {@link http://paleobiodb.org/data1.1/formats}
-     * @var     string  $pbdb;
+     * @var     string      $pbdb;
      */
     protected $pbdb;
 
@@ -38,9 +38,18 @@ class PBDB_Property
      * @since   0.0.1
      * @access  protected
      * @see     {@link http://paleobiodb.org/data1.1/formats}
-     * @var     string  $compacted
+     * @var     string      $compacted
      */
     protected $compacted;
+
+    /**
+     * Name of the parent Property block used in queries.
+     *
+     * @since   0.0.1
+     * @access  protected
+     * @var     string      $block
+     */
+    protected $block;
 
     /**
      * Name of the Property for the 'dwc' vocabulary.
@@ -48,7 +57,7 @@ class PBDB_Property
      * @since   0.0.1
      * @access  protected
      * @see     {@link http://paleobiodb.org/data1.1/formats}
-     * @var     string  $darwin_core;
+     * @var     string      $darwin_core;
      */
     protected $darwin_core;
 
@@ -57,13 +66,12 @@ class PBDB_Property
      *
      * @since   0.0.1
      * @access  protected
-     * @see     {@link http://paleobiodb.org/data1.1/formats}
-     * @var     string  $description;
+     * @var     string      $description
      */
     protected $description;
 
     /**
-     * Construct PBDB_Property object.
+     * Construct Property object.
      *
      * @since   0.0.1
      * @access  public
@@ -74,10 +82,24 @@ class PBDB_Property
      * @var     string  $description    Optional    Description of the property.
      * @see     {@link http://paleobiodb.org/data1.1} 
      */
-    public function __construct($pbdb, $compacted, $block, $darwin_core=null, $description=null) {
+    public function __construct($pbdb, $compacted, $block, $description=null, $darwin_core=null) {
         $this->pbdb = $pbdb;
         $this->compacted = $compacted;
+        $this->block = $block;
         $this->darwin_core = $darwin_core;
         $this->description = $description;
     }
+
+    /**
+     * Create a new Property object.
+     *
+     * @since   0.0.1
+     * @var     string  $pbdb
+     * @var     string  $compacted
+     * @var     string  $block
+     */
+    public static function factory( $pbdb, $compacted, $block ) {
+        return new Property( $pbdb, $compacted, $block );
+    }
+
 }

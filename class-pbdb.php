@@ -20,7 +20,7 @@ namespace myFOSSIL\PBDB;
  * @subpackage myFOSSIL_PBDB/includes/pbdb
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
-class PBDB_Client_Base 
+class Base
 {
     /**
      * The PBDB base URL for API requests.
@@ -30,49 +30,50 @@ class PBDB_Client_Base
      */
     const BASE_URL = 'http://paleobiodb.org/data1.1';
 
+    // {{{ TODO change to Parameter objects.
     /**
      * The PBDB API response format requested.
      *
      * @since   0.0.1
-     * @var     string      RESPONSE_FORMAT
+     * @var     string      $format
      */
-    const RESPONSE_FORMAT = 'json';
+    //protected $format = 'json';
 
     /**
      * The PBDB API default vocabulary.
      *
      * @since   0.0.1
-     * @var     string      VOCABULARY
+     * @var     string      $vocabulary
      * @see     {@link http://paleobiodb.org/data1.1/formats}
      */
-    const VOCABULARY = 'com';
+    //protected $vocabulary = 'com';
 
     /**
      * The PBDB API default line endings.
      *
      * @since   0.0.1
-     * @var     string      LINE_BREAK
+     * @var     string      $linebreak
      * @see     {@link http://paleobiodb.org/data1.1/common_doc.html}
      */
-    const LINE_BREAK = 'crlf';
+    //protected $linebreak = 'crlf';
 
     /**
      * The PBDB API default limit of the number of results.
      *
      * @since   0.0.1
-     * @var     mixed   RESULTS_LIMIT
+     * @var     mixed   $limit
      * @see     {@link http://paleobiodb.org/data1.1/common_doc.html}
      */
-    const RESULTS_LIMIT = 500;
+    //protected $limit = 500;
 
     /**
      * The PBDB API default for whether to return only the count.
      *
      * @since   0.0.1
-     * @var     bool    SHOW_COUNT
+     * @var     bool    $show_count
      * @see     {@link http://paleobiodb.org/data1.1/common_doc.html}
      */
-    const SHOW_COUNT = false;
+    //protected $show_count = false;
 
     /**
      * The PBDB API default for whether to set the content type to 'text/plain'.
@@ -81,7 +82,7 @@ class PBDB_Client_Base
      * @var     bool    TEXT_RESULT
      * @see     {@link http://paleobiodb.org/data1.1/common_doc.html}
      */
-    const TEXT_RESULT = false;
+    //const TEXT_RESULT = false;
 
     /**
      * The PBDB API default for whether to markup references with <b> and <i> tags.
@@ -90,7 +91,7 @@ class PBDB_Client_Base
      * @var     bool    MARK_REFERENCES
      * @see     {@link http://paleobiodb.org/data1.1/common_doc.html}
      */
-    const MARK_REFERENCES = false;
+    //const MARK_REFERENCES = false;
 
     /**
      * The PBDB API default for whether include source information in the response header.
@@ -99,7 +100,7 @@ class PBDB_Client_Base
      * @var     bool    HEADER_SOURCES
      * @see     {@link http://paleobiodb.org/data1.1/common_doc.html}
      */
-    const HEADER_SOURCES = false;
+    //const HEADER_SOURCES = false;
 
     /**
      * The PBDB API default for whether return the header field with field names.
@@ -108,7 +109,8 @@ class PBDB_Client_Base
      * @var     bool    HEADER_FIELDNAMES
      * @see     {@link http://paleobiodb.org/data1.1/common_doc.html}
      */
-    const HEADER_FIELDNAMES = true;
+    //const HEADER_FIELDNAMES = true;
+    // }}}
 
     /**
      * The GuzzleHttp\Client object used to make requests.
@@ -152,24 +154,30 @@ class PBDB_Client_Base
     public function __construct() {
         $this->_check_config();
         $this->http = new GuzzleHttp\Client( ['base_url' => self::BASE_URL] );
+        $this->parameters = new SplObjectStorage();
+        $this->properties = new SplObjectStorage();
     }
 
     /**
-     * Check that this class instance is configured correctly.
+     * Add a Parameter object to the parameters list for this PBDB Client.
      *
-     * @throws  DomainException
+     * @since   0.0.1
+     * @access  public
+     * @var     myFOSSIL\PBDB\Parameter
      */
-    protected function _check_config() {
-        if ( self::RESPONSE_FORMAT !== "json" ) {
-            throw new DomainException("Currently only the JSON response format is supported.");
-            return false;
-        }
-
-        if ( self::VOCABULARY !== "com" ) {
-            throw new DomainException("Currently only the compact vocabulary is supported.");
-            return false;
-        }
-
-        return true;
+    public function addParameter( Parameter $param ) {
+        $this->parameters->attach( $param );
     }
+
+    /**
+     * Add a Property object to the properties list for this PBDB Client.
+     *
+     * @since   0.0.1
+     * @access  public
+     * @var     myFOSSIL\PBDB\Property
+     */
+    public function addProperty( Property $prop ) {
+        $this->properties->attach( $prop );
+    }
+
 }
