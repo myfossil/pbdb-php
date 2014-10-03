@@ -152,10 +152,9 @@ class Base
      * @since 0.0.1
      */
     public function __construct() {
-        $this->_check_config();
-        $this->http = new GuzzleHttp\Client( ['base_url' => self::BASE_URL] );
-        $this->parameters = new SplObjectStorage();
-        $this->properties = new SplObjectStorage();
+        $this->http = new \GuzzleHttp\Client( ['base_url' => self::BASE_URL] );
+        $this->parameters = new \SplObjectStorage();
+        $this->properties = new \SplObjectStorage();
     }
 
     /**

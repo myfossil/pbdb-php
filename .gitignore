@@ -1,0 +1,16 @@
+## General
+.cvs
+.svn
+*.bak
+*.log
+*.swp
+
+## Windows
+Desktop.ini
+Thumbs.db
+
+## Mac
+.DS_Store
+
+## Composer
+vendor/

@@ -1,0 +1,23 @@
+{
+    "name": "myfossil/PBDB",
+    "description": "API client for the PaleoBio Database (PBDB)",
+    "license": "BSD",
+    "keywords": ["pbdb", "paleobiodb", "paleobio"],
+    "authors": [
+        {
+            "name": "Brandon Wood",
+            "email": "bwood@atmoapps.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "~4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.0.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "myFOSSIL\\PBDB\\": "src"
+        }
+    }
+}
