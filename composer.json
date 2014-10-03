@@ -1,5 +1,5 @@
 {
-    "name": "myfossil/PBDB",
+    "name": "myfossil/pbdb",
     "description": "API client for the PaleoBio Database (PBDB)",
     "license": "BSD",
     "keywords": ["pbdb", "paleobiodb", "paleobio"],
