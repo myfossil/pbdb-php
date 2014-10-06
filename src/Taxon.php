@@ -171,7 +171,7 @@ class Taxon extends Base
      * @see     initParameters
      * @see     initProperties
      */
-    public function init() {
+    private function init() {
         return $this->initParameters() && $this->initProperties();
     }
 
