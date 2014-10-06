@@ -170,4 +170,20 @@ class Base
     public function request( $url, $json=true ) {
         return $this->http->get( $url )->json();
     }
+
+    /**
+     * Load data from the PBDB.
+     *
+     * @since   0.0.1
+     */
+    public function load() {
+        if ( empty( $this->parameters->id->value ) )
+            throw new RuntimeException( "Cannot load GeologicalTimeInterval without id" );
+
+        $url = sprintf( '%s/%s/single.json?%s', self::BASE_URL, $this->endpoint,
+                $this->parameters->render() );
+
+        $this->properties->load( $this->request( $url ) );
+        return $this;
+    }
 }

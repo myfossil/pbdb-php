@@ -172,23 +172,6 @@ class Taxon extends Base implements BaseInterface
     }
 
     /**
-     * Load data from the PBDB for a given Taxon.
-     *
-     * @since   0.0.1
-     */
-    public function load() {
-        if ( empty( $this->parameters->id->value ) )
-            if ( empty( $this->parameters->name->value ) )
-                throw new RuntimeException( "Cannot load Taxon without name nor ID" );
-
-        $url = sprintf( '%s/%s/single.json?%s', self::BASE_URL, $this->endpoint,
-                $this->parameters->render() );
-
-        $this->properties->load( $this->request( $url ) );
-        return $this;
-    }
-
-    /**
      * Return the parent Taxon, if available.
      *
      * @return  Taxon   Parent Taxon.
