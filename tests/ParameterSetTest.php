@@ -40,4 +40,23 @@ class ParameterSetTest extends PHPUnit_Framework_Testcase {
         $params->reset();
         $this->assertEquals( 0, $params->count() );
     }
+
+    /**
+     * Test that we can get Parameters by ID.
+     *
+     * @expectedException   RuntimeException
+     */
+    public function testParameterGet() {
+        // Setup.
+        $params = new ParameterSet();
+        $params->attach( new Parameter( 'id', 69296, false ) );
+        $params->attach( new Parameter( 'show', 'attr' ) );
+        $params->attach( new Parameter( 'empty', null ) );
+
+        $this->assertEquals( 69296 , $params->id->value );
+        $this->assertEquals( 'attr', $params->show->value );
+        $this->assertEquals( null  , $params->empty->value );
+
+        $this->assertEquals( null  , $params->noexist->value );
+    }
 }

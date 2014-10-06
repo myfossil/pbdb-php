@@ -22,7 +22,23 @@ namespace myFOSSIL\PBDB;
  */
 abstract class BaseSet extends \SplObjectStorage 
 {
+    /**
+     * Remove all objects in the Set.
+     *
+     * @since   0.0.1
+     */
     public function reset() {
         $this->removeAll( $this );
     }
+
+    public function __get( $key ) {
+        foreach ( $this as $obj )
+            if ( $this->getHash( $obj ) == $key )
+                return $obj;
+
+        // Key not found, trigger error
+        throw new \RuntimeException( "Set does not contain the provided key $key." );
+        return null;
+    }
+
 }

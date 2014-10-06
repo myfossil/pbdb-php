@@ -49,4 +49,5 @@ class ParameterSet extends BaseSet
 
         return implode( '&', $rend );
     }
+
 }
