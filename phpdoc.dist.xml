@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+    <title>myfossil/pbdb</title>
+    <parser>
+        <target>doc</target>
+    </parser>
+    <transformer>
+        <target>doc</target>
+    </transformer>
+    <logging>
+        <level>quiet</level>
+    </logging>
+    <transformations>
+        <template name="clean" />
+    </transformations>
+    <files>
+        <directory>src</directory>
+    </files>
+</phpdoc>

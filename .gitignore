@@ -14,3 +14,6 @@ Thumbs.db
 
 ## Composer
 vendor/
+
+## PHPDoc
+doc/
