@@ -6,7 +6,6 @@ class TaxonTest extends PHPUnit_Framework_Testcase {
 
     public function testInstantiation() {
         $taxon = new Taxon();
-        $this->assertTrue( $taxon->init() );
         $this->assertGreaterThanOrEqual( 60, $taxon->properties->count() );
     }
 

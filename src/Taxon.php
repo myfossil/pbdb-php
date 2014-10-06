@@ -5,8 +5,8 @@
  * @link       http://atmoapps.com
  * @since      0.0.1
  *
- * @package    myFOSSIL_PBDB
- * @subpackage myFOSSIL_PBDB/includes/pbdb
+ * @package    myFOSSIL
+ * @subpackage myFOSSIL/PBDB
  */
 namespace myFOSSIL\PBDB;
 
@@ -16,8 +16,8 @@ namespace myFOSSIL\PBDB;
  * This class defines all code necessary to interface with the PBDB API for Taxa.
  *
  * @since      0.0.1
- * @package    myFOSSIL_PBDB
- * @subpackage myFOSSIL_PBDB/includes/pbdb
+ * @package    myFOSSIL
+ * @subpackage myFOSSIL/PBDB
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
 class Taxon extends Base
@@ -174,4 +174,5 @@ class Taxon extends Base
     public function init() {
         return $this->initParameters() && $this->initProperties();
     }
+
 }
