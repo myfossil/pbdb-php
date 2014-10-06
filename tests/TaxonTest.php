@@ -29,4 +29,31 @@ class TaxonTest extends PHPUnit_Framework_Testcase {
             $this->assertEquals( $v, $taxon->properties->$k->value );
         }
     }
+
+    public function testParentRetrieve() {
+        $taxon = new Taxon();
+        $taxon->parameters->id->value = 69296;
+        $taxon->load();
+
+        $test_values = array(
+                'Dascilloidea',
+                'Elateriformia',
+                'Polyphaga',
+                'Coleoptera', 
+                'Coleopterida',
+                'Endopterygota',
+                'Neoptera',
+                'Pterygota',
+                'Dicondylia',
+                'Insecta',
+                'Hexapoda',
+                'Pancrustacea',
+                'Mandibulata',
+            );
+
+        foreach ( $test_values as $taxon_name ) {
+            $taxon = $taxon->parent();
+            $this->assertEquals( $taxon_name, $taxon->properties->taxon_name->value );
+        }
+    }
 }

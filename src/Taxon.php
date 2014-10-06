@@ -189,6 +189,17 @@ class Taxon extends Base implements BaseInterface
     }
 
     /**
+     * Return the parent Taxon, if available.
+     *
+     * @return  Taxon   Parent Taxon.
+     */
+    public function parent() {
+        if ( empty( $this->properties->parent_no ) )
+            $this->load();
+        return self::factory( $this->properties->parent_no->value );
+    }
+
+    /**
      * Retrieve Taxon by a given identifier in PBDB.
      *
      * @since   0.0.1
