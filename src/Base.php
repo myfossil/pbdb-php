@@ -153,8 +153,8 @@ class Base
      */
     public function __construct() {
         $this->http = new \GuzzleHttp\Client( ['base_url' => self::BASE_URL] );
-        $this->parameters = new \SplObjectStorage();
-        $this->properties = new \SplObjectStorage();
+        $this->parameters = new ParameterSet();
+        $this->properties = new PropertySet();
     }
 
     /**

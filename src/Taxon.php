@@ -48,7 +48,7 @@ class Taxon extends Base
      */
     private function initParameters() {
         // Reset all Parameters.
-        $this->parameters->removeAllExcept( new \SplObjectStorage() );
+        $this->parameters->reset();
 
         // {{{ List of Parameters for a Taxon
         $parameters = array( 
@@ -77,7 +77,7 @@ class Taxon extends Base
      */
     private function initProperties() {
         // Reset all Properties.
-        $this->properties->removeAllExcept( new \SplObjectStorage() );
+        $this->properties->reset();
 
         // {{{ List of Properties for a Taxon
         /*
@@ -108,8 +108,8 @@ class Taxon extends Base
                 array('extant_size', 'exs', 'size'), 
                 array('kingdom', 'kgl', 'phylo'), 
                 array('phylum', 'phl', 'phylo'), 
-                array('class', 'cll', 'phylo'), 
-                array('order', 'odl', 'phylo'), 
+                array('class', 'cll', array( 'phylo', 'nav' ) ),
+                array('order', 'odl', array( 'phylo', 'nav' ) ),
                 array('family', 'fml', 'phylo'), 
                 array('parent_name', 'prl', 'nav'), 
                 array('parent_rank', 'prr', 'nav'), 
@@ -122,7 +122,6 @@ class Taxon extends Base
                 array('phylum_txn', 'pht', 'nav'), 
                 array('phylum_count', 'phc', 'nav'), 
                 array('class_no', 'cln', 'nav'), 
-                array('class', 'cll', 'nav'), 
                 array('class_txn', 'clt', 'nav'), 
                 array('class_count', 'clc', 'nav'), 
                 array('order_no', 'odl', 'nav'), 

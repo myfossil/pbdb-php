@@ -30,7 +30,7 @@ class Parameter
      * @see     {@link http://paleobiodb.org/data1.1/formats}
      * @var     string      $name
      */
-    protected $name;
+    public $name;
 
     /**
      * Value or argument supplied to PBDB for this parameter.
@@ -40,7 +40,7 @@ class Parameter
      * @see     {@link http://paleobiodb.org/data1.1/formats}
      * @var     mixed   $value
      */
-    protected $value;
+    public $value;
 
     /**
      * Whether the Parameter is optional when making requests of the PBDB API.

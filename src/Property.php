@@ -30,7 +30,7 @@ class Property
      * @see     {@link http://paleobiodb.org/data1.1/formats}
      * @var     string      $pbdb;
      */
-    protected $pbdb;
+    public $pbdb;
 
     /**
      * Name of the Property for the 'com' vocabulary.
@@ -40,16 +40,16 @@ class Property
      * @see     {@link http://paleobiodb.org/data1.1/formats}
      * @var     string      $compacted
      */
-    protected $compacted;
+    public $compacted;
 
     /**
      * Name of the parent Property block used in queries.
      *
      * @since   0.0.1
      * @access  protected
-     * @var     string      $block
+     * @var     array   $block
      */
-    protected $block;
+    public $block;
 
     /**
      * Name of the Property for the 'dwc' vocabulary.
@@ -59,7 +59,7 @@ class Property
      * @see     {@link http://paleobiodb.org/data1.1/formats}
      * @var     string      $darwin_core;
      */
-    protected $darwin_core;
+    public $darwin_core;
 
     /**
      * Description of the Property.
@@ -68,7 +68,7 @@ class Property
      * @access  protected
      * @var     string      $description
      */
-    protected $description;
+    public $description;
 
     /**
      * Construct Property object.
@@ -85,7 +85,11 @@ class Property
     public function __construct($pbdb, $compacted, $block, $description=null, $darwin_core=null) {
         $this->pbdb = $pbdb;
         $this->compacted = $compacted;
-        $this->block = $block;
+        if ( is_array( $block ) ) {
+            $this->block = $block;
+        } else {
+            $this->block = array( $block );
+        }
         $this->darwin_core = $darwin_core;
         $this->description = $description;
     }
