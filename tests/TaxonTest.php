@@ -11,10 +11,22 @@ class TaxonTest extends PHPUnit_Framework_Testcase {
 
     public function testRetrieveData() {
         $taxon = new Taxon();
+        $taxon->parameters->id->value = 69296;
+        $taxon->load();
 
-    }
+        $test_values = array(
+                'taxon_no'    => 69296,
+                'orig_no'     => 69296,
+                'record_type' => 'taxon',
+                'rank'        => 'family',
+                'taxon_name'  => 'Dascillidae',
+                'common_name' => 'soft bodied plant beetle',
+                'status'      => 'belongs to',
+                'parent_no'   => 69295
+            );
 
-    public function testIteration() {
-        $taxon = new Taxon();
+        foreach ( $test_values as $k => $v ) {
+            $this->assertEquals( $v, $taxon->properties->$k->value );
+        }
     }
 }

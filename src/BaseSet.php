@@ -23,6 +23,14 @@ namespace myFOSSIL\PBDB;
 abstract class BaseSet extends \SplObjectStorage 
 {
     /**
+     * Object type to be stored in the set.
+     *
+     * @since   0.0.1
+     * @access  private
+     */
+    const __CHILD_CLASS__ = null;
+
+    /**
      * Remove all objects in the Set.
      *
      * @since   0.0.1

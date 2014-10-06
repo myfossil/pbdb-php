@@ -20,14 +20,14 @@ namespace myFOSSIL\PBDB;
  * @subpackage myFOSSIL/PBDB
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
-class Taxon extends Base
+class Taxon extends Base implements BaseInterface
 {
     /**
      * PBDB API url for Taxa.
      *
      * @since 0.0.1
      */
-    protected $api_endpoint = 'taxa';
+    protected $endpoint = 'taxa';
 
     /**
      * Define the core functionality of the PBDB Client for Taxon
@@ -47,8 +47,6 @@ class Taxon extends Base
      * @see     {@link http://www.paleobiodb.org/data1.1/taxa/single_doc.html}
      */
     private function initParameters() {
-        // Reset all Parameters.
-        $this->parameters->reset();
 
         // {{{ List of Parameters for a Taxon
         $parameters = array( 
@@ -76,8 +74,6 @@ class Taxon extends Base
      * @see     \myFOSSIL\PBDB\Property
      */
     private function initProperties() {
-        // Reset all Properties.
-        $this->properties->reset();
 
         // {{{ List of Properties for a Taxon
         /*
@@ -173,6 +169,35 @@ class Taxon extends Base
      */
     private function init() {
         return $this->initParameters() && $this->initProperties();
+    }
+
+    /**
+     * Load data from the PBDB for a given Taxon.
+     *
+     * @since   0.0.1
+     */
+    public function load() {
+        if ( empty( $this->parameters->id->value ) )
+            if ( empty( $this->parameters->name->value ) )
+                throw new RuntimeException( "Cannot load Taxon without name nor ID" );
+
+        $url = sprintf( '%s/%s/single.json?%s', self::BASE_URL, $this->endpoint,
+                $this->parameters->render() );
+
+        $this->properties->load( $this->request( $url ) );
+        return $this;
+    }
+
+    /**
+     * Retrieve Taxon by a given identifier in PBDB.
+     *
+     * @since   0.0.1
+     */
+    public static function factory( $id ) {
+        $taxon = new Taxon;
+        $taxon->parameters->id->value = $id;
+        $taxon->load();
+        return $taxon;
     }
 
 }

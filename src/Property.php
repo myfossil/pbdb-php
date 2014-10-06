@@ -71,6 +71,15 @@ class Property
     public $description;
 
     /**
+     * Value of the Property.
+     *
+     * @since   0.0.1
+     * @access  public
+     * @var     string      $value
+     */
+    public $value;
+
+    /**
      * Construct Property object.
      *
      * @since   0.0.1
@@ -82,8 +91,10 @@ class Property
      * @var     string  $description    Optional    Description of the property.
      * @see     {@link http://paleobiodb.org/data1.1} 
      */
-    public function __construct($pbdb, $compacted, $block, $description=null, $darwin_core=null) {
+    public function __construct($pbdb, $compacted=null, $block=array(),
+            $value=null, $description=null, $darwin_core=null) {
         $this->pbdb = $pbdb;
+        $this->value = $value;
         $this->compacted = $compacted;
         if ( is_array( $block ) ) {
             $this->block = $block;

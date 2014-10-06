@@ -30,88 +30,6 @@ class Base
      */
     const BASE_URL = 'http://paleobiodb.org/data1.1';
 
-    // {{{ TODO change to Parameter objects.
-    /**
-     * The PBDB API response format requested.
-     *
-     * @since   0.0.1
-     * @var     string      $format
-     */
-    //protected $format = 'json';
-
-    /**
-     * The PBDB API default vocabulary.
-     *
-     * @since   0.0.1
-     * @var     string      $vocabulary
-     * @see     {@link http://paleobiodb.org/data1.1/formats}
-     */
-    //protected $vocabulary = 'com';
-
-    /**
-     * The PBDB API default line endings.
-     *
-     * @since   0.0.1
-     * @var     string      $linebreak
-     * @see     {@link http://paleobiodb.org/data1.1/common_doc.html}
-     */
-    //protected $linebreak = 'crlf';
-
-    /**
-     * The PBDB API default limit of the number of results.
-     *
-     * @since   0.0.1
-     * @var     mixed   $limit
-     * @see     {@link http://paleobiodb.org/data1.1/common_doc.html}
-     */
-    //protected $limit = 500;
-
-    /**
-     * The PBDB API default for whether to return only the count.
-     *
-     * @since   0.0.1
-     * @var     bool    $show_count
-     * @see     {@link http://paleobiodb.org/data1.1/common_doc.html}
-     */
-    //protected $show_count = false;
-
-    /**
-     * The PBDB API default for whether to set the content type to 'text/plain'.
-     *
-     * @since   0.0.1
-     * @var     bool    TEXT_RESULT
-     * @see     {@link http://paleobiodb.org/data1.1/common_doc.html}
-     */
-    //const TEXT_RESULT = false;
-
-    /**
-     * The PBDB API default for whether to markup references with <b> and <i> tags.
-     *
-     * @since   0.0.1
-     * @var     bool    MARK_REFERENCES
-     * @see     {@link http://paleobiodb.org/data1.1/common_doc.html}
-     */
-    //const MARK_REFERENCES = false;
-
-    /**
-     * The PBDB API default for whether include source information in the response header.
-     *
-     * @since   0.0.1
-     * @var     bool    HEADER_SOURCES
-     * @see     {@link http://paleobiodb.org/data1.1/common_doc.html}
-     */
-    //const HEADER_SOURCES = false;
-
-    /**
-     * The PBDB API default for whether return the header field with field names.
-     *
-     * @since   0.0.1
-     * @var     bool    HEADER_FIELDNAMES
-     * @see     {@link http://paleobiodb.org/data1.1/common_doc.html}
-     */
-    //const HEADER_FIELDNAMES = true;
-    // }}}
-
     /**
      * The GuzzleHttp\Client object used to make requests.
      *
@@ -155,6 +73,7 @@ class Base
         $this->http = new \GuzzleHttp\Client( ['base_url' => self::BASE_URL] );
         $this->parameters = new ParameterSet();
         $this->properties = new PropertySet();
+        $this->init();
     }
 
     /**
@@ -185,6 +104,34 @@ class Base
      * @since   0.0.1
      */
     private function initParameters() {
+        // PBDB API default vocabulary.
+        $this->parameters->attach( new Parameter( 'vocab', 'pbdb' ) );
+
+        // PBDB API default line endings.
+        $this->parameters->attach( new Parameter( 'linebreak', null ) );
+
+        // PBDB API default limit of the number of results.
+        $this->parameters->attach( new Parameter( 'limit', null ) );
+
+        // PBDB API default for whether to return only the count.
+        $this->parameters->attach( new Parameter( 'count', null ) );
+
+        // PBDB API default for whether to set the content type to
+        // 'text/plain'.
+        $this->parameters->attach( new Parameter( 'textresult', null ) );
+
+        // PBDB API default for whether to markup references with <b> and <i>
+        // tags.
+        $this->parameters->attach( new Parameter( 'markrefs', null ) );
+
+        // PBDB API default for whether include source information in the
+        // response header.
+        $this->parameters->attach( new Parameter( 'showsource', null ) );
+
+        // PBDB API default for whether return the header field with field
+        // names.
+        $this->parameters->attach( new Parameter( 'noheader', null ) );
+
         return true;
     }
 
@@ -199,6 +146,18 @@ class Base
     }
 
     /**
+     * Initialize default Parameters and Properties.
+     * 
+     * @since   0.0.1
+     * @access  private
+     * @see     initParameters
+     * @see     initProperties
+     */
+    private function init() {
+        return $this->initParameters() && $this->initProperties();
+    }
+
+    /**
      * Retrieve response from PBDB with HTTP GET request.
      *
      * @since   0.0.1
@@ -208,11 +167,7 @@ class Base
      * @throws  DomainException If $verb supplied is not supported.
      * @return  string  String response from the server.
      */
-    public static function request( $url, $json=true ) {
-        if ( $verb !== 'GET' ) {
-            throw new DomainException( 'Only GET requests are currently supported.' );
-        }
-
+    public function request( $url, $json=true ) {
         return $this->http->get( $url )->json();
     }
 }
