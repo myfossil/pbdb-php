@@ -59,4 +59,5 @@ class ParameterSetTest extends PHPUnit_Framework_Testcase {
 
         $this->assertEquals( null  , $params->noexist->value );
     }
+
 }
