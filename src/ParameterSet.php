@@ -32,4 +32,23 @@ class ParameterSet extends BaseSet
     public function getHash( $param ) {
         return $param->name;
     }
+
+    /**
+     * Returns a URL style query string.
+     *
+     * @since   0.0.1
+     * @return  string  URL query string
+     */
+    public function render() {
+        // return blank string if we have no Parameters
+        if ( !$this->count() ) return '';
+
+        $rend = array();
+        foreach ( $this as $param ) {
+            if ( $p = $param->render() )
+                $rend[] = $p;
+        }
+
+        return implode( '&', $rend );
+    }
 }

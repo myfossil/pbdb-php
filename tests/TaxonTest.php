@@ -9,4 +9,12 @@ class TaxonTest extends PHPUnit_Framework_Testcase {
         $this->assertGreaterThanOrEqual( 60, $taxon->properties->count() );
     }
 
+    public function testRetrieveData() {
+        $taxon = new Taxon();
+
+    }
+
+    public function testIteration() {
+        $taxon = new Taxon();
+    }
 }
