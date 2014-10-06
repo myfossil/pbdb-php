@@ -40,14 +40,12 @@ class ParameterSet extends BaseSet
      * @return  string  URL query string
      */
     public function render() {
-        // return blank string if we have no Parameters
-        if ( !$this->count() ) return '';
+        if ( !$this->count() ) return null;
 
         $rend = array();
-        foreach ( $this as $param ) {
+        foreach ( $this as $param ) 
             if ( $p = $param->render() )
                 $rend[] = $p;
-        }
 
         return implode( '&', $rend );
     }

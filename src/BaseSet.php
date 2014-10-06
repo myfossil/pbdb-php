@@ -23,6 +23,6 @@ namespace myFOSSIL\PBDB;
 abstract class BaseSet extends \SplObjectStorage 
 {
     public function reset() {
-        $this->removeAllExcept( new \SplObjectStorage() );
+        $this->removeAll( $this );
     }
 }
