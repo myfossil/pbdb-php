@@ -47,6 +47,8 @@ class Taxon extends Base
      * @see     {@link http://www.paleobiodb.org/data1.1/taxa/single_doc.html}
      */
     private function initParameters() {
+        // Reset all Parameters.
+        $this->parameters->removeAllExcept( new \SplObjectStorage() );
 
         // {{{ List of Parameters for a Taxon
         $parameters = array( 
@@ -57,8 +59,12 @@ class Taxon extends Base
         // }}}
 
         foreach ( $parameters as $pargs ) {
-            $this->addParameter( __NAMESPACE__ . '\Parameter::factory', $pargs );
+            $this->addParameter( 
+                    call_user_func_array( __NAMESPACE__ . '\Parameter::factory', $pargs )
+                );
         }
+
+        return true;
     }
 
     /**
@@ -67,10 +73,19 @@ class Taxon extends Base
      * @since   0.0.1
      * @access  private
      * @see     {@link http://www.paleobiodb.org/data1.1/taxa/single_doc.html}
+     * @see     \myFOSSIL\PBDB\Property
      */
     private function initProperties() {
+        // Reset all Properties.
+        $this->properties->removeAllExcept( new \SplObjectStorage() );
 
         // {{{ List of Properties for a Taxon
+        /*
+         * Each array item will serve as a set of arguments to a Property class,
+         * supplying the bare essentials of what needs to be defined.
+         *
+         * PBDB vocab, compacted vocab, parent block (show block)
+         */ 
         $properties = array(
                 array('taxon_no', 'oid', 'basic'), 
                 array('orig_no', 'gid', 'basic'), 
@@ -141,8 +156,12 @@ class Taxon extends Base
         // }}}
 
         foreach ( $properties as $pargs ) {
-            $this->addProperty( __NAMESPACE__ . '\Property::factory', $pargs );
+            $this->addProperty( 
+                    call_user_func_array( __NAMESPACE__ . '\Property::factory', $pargs )
+                );
         }
+
+        return true;
     }
 
     /**
@@ -150,10 +169,10 @@ class Taxon extends Base
      * 
      * @since   0.0.1
      * @access  private
-     * @see     Taxon::initParameters
-     * @see     Taxon::initProperties
+     * @see     initParameters
+     * @see     initProperties
      */
-    private function init() {
+    public function init() {
         return $this->initParameters() && $this->initProperties();
     }
 }

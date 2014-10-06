@@ -131,7 +131,7 @@ class Base
      * @see     {@link http://paleobiodb.org/data1.1/formats}
      * @var     SplObjectStorage    $parameters
      */
-    protected $parameters;
+    public $parameters;
 
     /**
      * SplObjectStorage instance containing PBDB_Property's.
@@ -143,7 +143,7 @@ class Base
      * @see     {@link http://paleobiodb.org/data1.1/formats}
      * @var     SplObjectStorage    $properties
      */
-    protected $properties;
+    public $properties;
 
 
     /**
@@ -173,10 +173,46 @@ class Base
      *
      * @since   0.0.1
      * @access  public
-     * @var     myFOSSIL\PBDB\Property
+     * @var     myFOSSIL\PBDB\Property  $prop   The \myFOSSIl\PBDB\Property to add.
      */
     public function addProperty( Property $prop ) {
         $this->properties->attach( $prop );
     }
 
+    /**
+     * Initialize default Parameters for a Taxon.
+     * 
+     * @since   0.0.1
+     */
+    private function initParameters() {
+        return true;
+    }
+
+    /**
+     * Initialize default Properties for a Taxon.
+     * 
+     * @since   0.0.1
+     * @access  private
+     */
+    private function initProperties() {
+        return true;
+    }
+
+    /**
+     * Retrieve response from PBDB with HTTP GET request.
+     *
+     * @since   0.0.1
+     * @access  public
+     * @var     string  $url
+     * @var     bool    $json   Optional Whether the response should be returned as JSON decoded data. Default true.
+     * @throws  DomainException If $verb supplied is not supported.
+     * @return  string  String response from the server.
+     */
+    public static function request( $url, $json=true ) {
+        if ( $verb !== 'GET' ) {
+            throw new DomainException( 'Only GET requests are currently supported.' );
+        }
+
+        return $this->http->get( $url )->json();
+    }
 }

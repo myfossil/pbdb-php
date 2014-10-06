@@ -75,8 +75,8 @@ class Property
      *
      * @since   0.0.1
      * @access  public
-     * @var     string  $pbdb                       PaleoBioDatabase version of the property.
-     * @var     string  $compacted                  Compacted version of the property.
+     * @var     string  $pbdb                       PBDB vocab of the property.
+     * @var     string  $compacted                  Compacted vocab of the property.
      * @var     string  $block                      Parent block of property in API response.
      * @var     string  $darwin_core    Optional    Darwin Core version of the property.
      * @var     string  $description    Optional    Description of the property.
@@ -101,5 +101,4 @@ class Property
     public static function factory( $pbdb, $compacted, $block ) {
         return new Property( $pbdb, $compacted, $block );
     }
-
 }
