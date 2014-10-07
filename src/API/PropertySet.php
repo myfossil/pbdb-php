@@ -16,7 +16,7 @@ namespace myFOSSIL\PBDB\API;
  * @since      0.0.1
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
-class PropertySet extends Set
+class PropertySet extends AbstractSet
 {
     /**
      * Returns unique identifier used to determine hash in storage array.

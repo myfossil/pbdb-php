@@ -16,7 +16,7 @@ namespace myFOSSIL\PBDB\API;
  * @since      0.0.1
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
-class ParameterSet extends Set
+class ParameterSet extends AbstractSet
 {
     /**
      * Returns unique identifier used to determine hash in storage array.

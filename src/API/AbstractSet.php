@@ -16,7 +16,7 @@ namespace myFOSSIL\PBDB\API;
  * @since      0.0.1
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
-abstract class Set extends \SplObjectStorage 
+abstract class AbstractSet extends \SplObjectStorage 
 {
     /**
      * Remove all objects in the Set.
