@@ -4,10 +4,8 @@
  *
  * @link       http://atmoapps.com
  * @since      0.0.1
- *
- * @package    myFOSSIL
- * @subpackage myFOSSIL/PBDB
  */
+
 namespace myFOSSIL\PBDB;
 
 /**
@@ -17,22 +15,23 @@ namespace myFOSSIL\PBDB;
  *
  * @since      0.0.1
  * @package    myFOSSIL
- * @subpackage myFOSSIL/PBDB
- * @author     Brandon Wood <bwood@atmoapps.com>
  */
 class FossilOccurence extends Base implements BaseInterface
 {
     /**
      * PBDB API url for Taxa.
      *
-     * @since 0.0.1
+     * @since   0.0.1
+     * @access  protected
+     * @var     string      $endpoint   API endpoint in the PBDB.
      */
     protected $endpoint = 'occs';
 
     /**
      * Define the core functionality of the PBDB Client for FossilOccurence
      *
-     * @since 0.0.1
+     * @since   0.0.1
+     * @access  public
      */
     public function __construct() {
         parent::__construct();
@@ -187,8 +186,7 @@ class FossilOccurence extends Base implements BaseInterface
      * 
      * @since   0.0.1
      * @access  private
-     * @see     initParameters
-     * @see     initProperties
+     * @return  bool            Returns true upon success, false upon failure.
      */
     private function init() {
         return $this->initParameters() && $this->initProperties();
@@ -198,6 +196,9 @@ class FossilOccurence extends Base implements BaseInterface
      * Retrieve FossilOccurence by a given identifier in PBDB.
      *
      * @since   0.0.1
+     * @access  public
+     * @param   int     $id     ID of the given class instance to load from PBDB.
+     * @return  self            Returns FossilOccurence object with loaded properties.
      */
     public static function factory( $id ) {
         $fossil = new FossilOccurence;

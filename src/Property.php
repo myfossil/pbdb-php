@@ -4,10 +4,8 @@
  *
  * @link       http://atmoapps.com
  * @since      0.0.1
- *
- * @package    myFOSSIL
- * @subpackage myFOSSIL/PBDB
  */
+
 namespace myFOSSIL\PBDB;
 
 /**
@@ -16,8 +14,6 @@ namespace myFOSSIL\PBDB;
  * This class defines all information relating to a property of a PBDB object.
  *
  * @since      0.0.1
- * @package    myFOSSIL
- * @subpackage myFOSSIL/PBDB
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
 class Property
@@ -26,7 +22,7 @@ class Property
      * Name of the Property for the 'pbdb' vocabulary.
      *
      * @since   0.0.1
-     * @access  protected
+     * @access  public
      * @see     {@link http://paleobiodb.org/data1.1/formats}
      * @var     string      $pbdb;
      */
@@ -36,7 +32,7 @@ class Property
      * Name of the Property for the 'com' vocabulary.
      *
      * @since   0.0.1
-     * @access  protected
+     * @access  public 
      * @see     {@link http://paleobiodb.org/data1.1/formats}
      * @var     string      $compacted
      */
@@ -46,7 +42,7 @@ class Property
      * Name of the parent Property block used in queries.
      *
      * @since   0.0.1
-     * @access  protected
+     * @access  public 
      * @var     array   $block
      */
     public $block;
@@ -55,7 +51,7 @@ class Property
      * Name of the Property for the 'dwc' vocabulary.
      *
      * @since   0.0.1
-     * @access  protected
+     * @access  public 
      * @see     {@link http://paleobiodb.org/data1.1/formats}
      * @var     string      $darwin_core;
      */
@@ -65,7 +61,7 @@ class Property
      * Description of the Property.
      *
      * @since   0.0.1
-     * @access  protected
+     * @access  public
      * @var     string      $description
      */
     public $description;
@@ -84,11 +80,12 @@ class Property
      *
      * @since   0.0.1
      * @access  public
-     * @var     string  $pbdb                       PBDB vocab of the property.
-     * @var     string  $compacted                  Compacted vocab of the property.
-     * @var     string  $block                      Parent block of property in API response.
-     * @var     string  $darwin_core    Optional    Darwin Core version of the property.
-     * @var     string  $description    Optional    Description of the property.
+     * @param   string  $pbdb                       PBDB vocab of the property.
+     * @param   string  $compacted      Optional    Compacted vocab of the property.
+     * @param   array   $block          Optional    Parent block of property in API response.
+     * @param   string  $value          Optional    Value of the given Property.
+     * @param   string  $description    Optional    Description of the property.
+     * @param   string  $darwin_core    Optional    Darwin Core version of the property.
      * @see     {@link http://paleobiodb.org/data1.1} 
      */
     public function __construct($pbdb, $compacted=null, $block=array(),
@@ -109,11 +106,13 @@ class Property
      * Create a new Property object.
      *
      * @since   0.0.1
-     * @var     string  $pbdb
-     * @var     string  $compacted
-     * @var     string  $block
+     * @access  public
+     * @param   string  $pbdb
+     * @param   string  $compacted
+     * @param   string  $block
      */
     public static function factory( $pbdb, $compacted, $block ) {
         return new Property( $pbdb, $compacted, $block );
     }
+
 }

@@ -4,10 +4,8 @@
  *
  * @link       http://atmoapps.com
  * @since      0.0.1
- *
- * @package    myFOSSIL
- * @subpackage myFOSSIL/PBDB
  */
+
 namespace myFOSSIL\PBDB;
 
 /**
@@ -16,8 +14,6 @@ namespace myFOSSIL\PBDB;
  * This class defines all information relating to a parameter of a PBDB object.
  *
  * @since      0.0.1
- * @package    myFOSSIL
- * @subpackage myFOSSIL/PBDB
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
 class ParameterSet extends BaseSet
@@ -25,7 +21,9 @@ class ParameterSet extends BaseSet
     /**
      * Returns unique identifier used to determine hash in storage array.
      *
-     * @var     Parameter   $param  Property object to calculate hash with.
+     * @since   0.0.1
+     * @access  public
+     * @param   Parameter   $param  Property object to calculate hash with.
      * @see     \SplObjectStorage::getHash
      * @return  string      Identifier for parameter using PBDB vocabulary.
      */
@@ -37,6 +35,7 @@ class ParameterSet extends BaseSet
      * Returns a URL style query string.
      *
      * @since   0.0.1
+     * @access  public
      * @return  string  URL query string
      */
     public function render() {
@@ -44,7 +43,7 @@ class ParameterSet extends BaseSet
         if ( !$this->count() ) return null;
 
         $rend = array();
-        foreach ( ParameterSet::filter( $this ) as $param ) 
+        foreach ( self::filter( $this ) as $param ) 
             $rend[] = $param->render();
 
         return implode( '&', $rend );
@@ -54,6 +53,8 @@ class ParameterSet extends BaseSet
      * Return filtered ParameterSet.
      *
      * @since   0.0.1
+     * @access  public
+     * @param   ParameterSet    $params ParameterSet to filter.
      * @return  ParameterSet
      */
     public static function filter( $params ) {
@@ -64,4 +65,5 @@ class ParameterSet extends BaseSet
 
         return $filtered;
     }
+
 }

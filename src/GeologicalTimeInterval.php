@@ -4,10 +4,8 @@
  *
  * @link       http://atmoapps.com
  * @since      0.0.1
- *
- * @package    myFOSSIL
- * @subpackage myFOSSIL/PBDB
  */
+
 namespace myFOSSIL\PBDB;
 
 /**
@@ -16,23 +14,24 @@ namespace myFOSSIL\PBDB;
  * This class defines all code necessary to interface with the PBDB API for Taxa.
  *
  * @since      0.0.1
- * @package    myFOSSIL
- * @subpackage myFOSSIL/PBDB
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
 class GeologicalTimeInterval extends Base implements BaseInterface
 {
     /**
-     * PBDB API url for Taxa.
+     * PBDB API endpoint for Taxa.
      *
-     * @since 0.0.1
+     * @since   0.0.1
+     * @access  protected
+     * @var     string  $endpoint   PBDB API endpoint for GeologicalTimeIntervals.
      */
     protected $endpoint = 'intervals';
 
     /**
      * Define the core functionality of the PBDB Client for GeologicalTimeInterval
      *
-     * @since 0.0.1
+     * @since   0.0.1
+     * @access  public
      */
     public function __construct() {
         parent::__construct();
@@ -44,7 +43,10 @@ class GeologicalTimeInterval extends Base implements BaseInterface
      * 
      * @since   0.0.1
      * @access  private
+     * @return  bool        Returns true upon success, false upon failure.
      * @see     {@link http://www.paleobiodb.org/data1.1/taxa/single_doc.html}
+     * @see     \myFOSSIL\PBDB\Parameter
+     * @see     \myFOSSIL\PBDB\ParameterSet
      */
     private function initParameters() {
 
@@ -68,8 +70,10 @@ class GeologicalTimeInterval extends Base implements BaseInterface
      * 
      * @since   0.0.1
      * @access  private
+     * @return  bool        Returns true upon success, false upon failure.
      * @see     {@link http://www.paleobiodb.org/data1.1/taxa/single_doc.html}
      * @see     \myFOSSIL\PBDB\Property
+     * @see     \myFOSSIL\PBDB\PropertySet
      */
     private function initProperties() {
 
@@ -109,8 +113,7 @@ class GeologicalTimeInterval extends Base implements BaseInterface
      * 
      * @since   0.0.1
      * @access  private
-     * @see     initParameters
-     * @see     initProperties
+     * @return  bool    Returns true upon success, false upon failure.
      */
     private function init() {
         return $this->initParameters() && $this->initProperties();
@@ -120,6 +123,8 @@ class GeologicalTimeInterval extends Base implements BaseInterface
      * Retrieve GeologicalTimeInterval by a given identifier in PBDB.
      *
      * @since   0.0.1
+     * @access  public
+     * @param   int     $id     Identifier of the given GeologicalTimeInterval in PBDB.
      */
     public static function factory( $id ) {
         $time_interval = new GeologicalTimeInterval;

@@ -4,10 +4,8 @@
  *
  * @link       http://atmoapps.com
  * @since      0.0.1
- *
- * @package    myFOSSIL
- * @subpackage myFOSSIL/PBDB
  */
+
 namespace myFOSSIL\PBDB;
 
 /**
@@ -16,20 +14,10 @@ namespace myFOSSIL\PBDB;
  * This class defines all information relating to a parameter of a PBDB object.
  *
  * @since      0.0.1
- * @package    myFOSSIL
- * @subpackage myFOSSIL/PBDB
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
 abstract class BaseSet extends \SplObjectStorage 
 {
-    /**
-     * Object type to be stored in the set.
-     *
-     * @since   0.0.1
-     * @access  private
-     */
-    const __CHILD_CLASS__ = null;
-
     /**
      * Remove all objects in the Set.
      *
@@ -39,6 +27,17 @@ abstract class BaseSet extends \SplObjectStorage
         $this->removeAll( $this );
     }
 
+    /**
+     * Magic method that overrides get behavior.
+     *
+     * The purpose of this overload is to easily get properties or parameters
+     * from given parameter or property sets.
+     *
+     * @since   0.0.1
+     * @throws  \RuntimeException   If the set does not contain the key provided.
+     * @param   mixed   $key        Hash resulting from obj::getHash()
+     * @return  mixed               Object with a given hash key.
+     */
     public function __get( $key ) {
         foreach ( $this as $obj )
             if ( $this->getHash( $obj ) == $key )
@@ -46,7 +45,6 @@ abstract class BaseSet extends \SplObjectStorage
 
         // Key not found, trigger error
         throw new \RuntimeException( "Set does not contain the provided key $key." );
-        return null;
     }
 
 }

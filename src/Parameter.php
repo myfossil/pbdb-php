@@ -4,10 +4,8 @@
  *
  * @link       http://atmoapps.com
  * @since      0.0.1
- *
- * @package    myFOSSIL
- * @subpackage myFOSSIL/PBDB
  */
+
 namespace myFOSSIL\PBDB;
 
 /**
@@ -16,8 +14,6 @@ namespace myFOSSIL\PBDB;
  * This class defines all information relating to a parameter of a PBDB object.
  *
  * @since      0.0.1
- * @package    myFOSSIL
- * @subpackage myFOSSIL/PBDB
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
 class Parameter 
@@ -26,7 +22,7 @@ class Parameter
      * Name of the Parameter.
      *
      * @since   0.0.1
-     * @access  protected
+     * @access  public 
      * @see     {@link http://paleobiodb.org/data1.1/formats}
      * @var     string      $name
      */
@@ -36,7 +32,7 @@ class Parameter
      * Value or argument supplied to PBDB for this parameter.
      *
      * @since   0.0.1
-     * @access  protected
+     * @access  public 
      * @see     {@link http://paleobiodb.org/data1.1/formats}
      * @var     mixed   $value
      */
@@ -91,12 +87,14 @@ class Parameter
     protected $valid_values = array();
 
     /**
-     * Construct PBDB_Parameter object.
+     * Construct Parameter object.
      *
      * @since   0.0.1
      * @access  public
-     * @var     string  $name                       PaleoBioDatabase name of the Parameter.
-     * @var     string  $description    Optional    Description of the parameter.
+     * @param   string  $name                       PaleoBioDatabase name of the Parameter.
+     * @param   string  $description    Optional    Description of the parameter.
+     * @param   string  $value          Optional    Value of the given parameter.
+     * @param   bool    $optional       Optional    Whether or not the parameter is optional to PBDB.
      * @see     {@link http://paleobiodb.org/data1.1} 
      */
     public function __construct($name, $value=null, $optional=true, $description=null) {
@@ -110,9 +108,9 @@ class Parameter
      * Create a new Parameter object.
      *
      * @since   0.0.1
-     * @var     string  $name
-     * @var     mixed   $value
-     * @var     string  $optional   Optional    default true
+     * @param   string  $name                   Name of the parameter.
+     * @param   mixed   $value                  Value of the parameter.
+     * @param   string  $optional   Optional    Whether the Parameter is optional, default true.
      */
     public static function factory( $name, $value, $optional=true ) {
         return new Parameter( $name, $value, $optional );
@@ -123,7 +121,7 @@ class Parameter
      *
      * @since   0.0.1
      * @access  public
-     * @var     bool    $validate           Optional    Whether to validate prior to rendering, default true.
+     * @param   bool    $validate           Optional    Whether to validate prior to rendering, default true.
      * @return  string                                  Rendered template string.
      */
     public function render( $validate=true ) {
@@ -157,7 +155,8 @@ class Parameter
      *
      * @since   0.0.1
      * @access  private 
-     * @return  bool                        Returns true if valid, false if invalid.
+     * @param   string      $name   Given name of the Parameter to validate.
+     * @return  bool                Returns true if valid, false if invalid.
      */
     private function validName( $name ) {
         if ( !isset( $name ) || empty( $name ) ) {
@@ -174,7 +173,8 @@ class Parameter
      *
      * @since   0.0.1
      * @access  private 
-     * @return  bool                        Returns true if valid, false if invalid.
+     * @param   mixed       $value  Given value of the Parameter to validate.
+     * @return  bool                Returns true if valid, false if invalid.
      */
     private function validValue( $value ) {
         if ( !in_array( gettype( $value ), $this->valid_types ) ) 
@@ -205,52 +205,11 @@ class Parameter
     }
 
     /**
-     * Set the name.
-     *
-     * @since   0.0.1
-     * @access  public
-     * @var     string  name of Parameter 
-     * @return  bool    trupe upon success, false upon failure.
-     */
-    public function setName( string $name ) {
-        if ( !$this->validName( $name ) )
-            return false;
-        $this->name = $name;
-        return true;
-    }
-
-    /**
-     * Get the parameter's name
-     *
-     * @since   0.0.1
-     * @access  public
-     * @return  string  Template string for sprintf
-     */
-    public function getName() {
-        return $this->name;
-    }
-
-    /**
-     * Set the value.
-     *
-     * @since   0.0.1
-     * @access  public
-     * @var     mixed   value(s) of Parameter, can be anything in $this->valid_values with type $this->valid_types
-     * @return  bool    trupe upon success, false upon failure.
-     */
-    public function setValue( $value ) {
-        if ( !$this->validValue( $value ) )
-            return false;
-        $this->value = $value;
-        return true;
-    }
-
-    /**
      * Add another value to the running list of values.
      *
      * @since   0.0.1
      * @access  public
-     * @var     mixed   $value              value(s) to add to values list
+     * @param   mixed   $value              value(s) to add to values list
      * @return  bool                        true upon success, false upon failure.
      */
     public function addValue( $value ) {
@@ -282,11 +241,10 @@ class Parameter
      *
      * @since   0.0.1
      * @access  public
-     * @var     string  Template string for sprintf
-     * @return  bool    trupe upon success, false upon failure.
-     * @see     sprintf
+     * @param   string  $tpl    Template string for sprintf
+     * @return  bool            Returns true upon success, false upon failure.
      */
-    public function setTemplate( string $tpl ) {
+    public function setTemplate( $tpl ) {
         if ( !is_string( $tpl ) ) return false;
         $this->tpl = $tpl;
         return true;
@@ -297,8 +255,7 @@ class Parameter
      *
      * @since   0.0.1
      * @access  public
-     * @return  string  Template string for sprintf
-     * @see     sprintf
+     * @return  string      Template string for sprintf
      */
     public function getTemplate() {
         return $this->tpl;

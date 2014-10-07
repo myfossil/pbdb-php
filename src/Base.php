@@ -4,20 +4,17 @@
  *
  * @link       http://atmoapps.com
  * @since      0.0.1
- *
- * @package    myFOSSIL
- * @subpackage myFOSSIL/PBDB
  */
+
 namespace myFOSSIL\PBDB;
 
 /**
- * PBDB API client.
+ * Base class for the PBDB API.
  *
- * This class defines all code necessary to interface with the PBDB API.
+ * This class defines all code necessary to interface with the PBDB API. It is
+ * the foundation for objects available from the PBDB.
  *
  * @since      0.0.1
- * @package    myFOSSIL
- * @subpackage myFOSSIL/PBDB
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
 class Base
@@ -31,11 +28,11 @@ class Base
     const BASE_URL = 'http://paleobiodb.org/data1.1';
 
     /**
-     * The GuzzleHttp\Client object used to make requests.
+     * The \GuzzleHttp\Client object used to make requests.
      *
      * @since   0.0.1
      * @access  protected
-     * @var     GuzzleHttp\Client   $_http   The GuzzleHttp\Client instance to handle all API requests. 
+     * @var     \GuzzleHttp\Client   $_http   The \GuzzleHttp\Client instance to handle all API requests. 
      */
     protected $http;
 
@@ -67,7 +64,8 @@ class Base
     /**
      * Define the core functionality of the PBDB Client base.
      *
-     * @since 0.0.1
+     * @since   0.0.1
+     * @access  public
      */
     public function __construct() {
         $this->http = new \GuzzleHttp\Client( ['base_url' => self::BASE_URL] );
@@ -81,9 +79,9 @@ class Base
      *
      * @since   0.0.1
      * @access  public
-     * @var     myFOSSIL\PBDB\Parameter
+     * @param   Parameter   $param  PBDB Parameter to add to query set.
      */
-    public function addParameter( Parameter $param ) {
+    public function addParameter( $param ) {
         $this->parameters->attach( $param );
     }
 
@@ -92,16 +90,20 @@ class Base
      *
      * @since   0.0.1
      * @access  public
-     * @var     myFOSSIL\PBDB\Property  $prop   The \myFOSSIl\PBDB\Property to add.
+     * @param   Property    $prop   PBDB Property of the given object.
      */
-    public function addProperty( Property $prop ) {
+    public function addProperty( $prop ) {
         $this->properties->attach( $prop );
     }
 
     /**
      * Initialize default Parameters for a Taxon.
+     *
+     * This function is called at instantiation, and sets default parameters
+     * against the PBDB API.
      * 
      * @since   0.0.1
+     * @access  private
      */
     private function initParameters() {
         // PBDB API default vocabulary.
@@ -137,7 +139,10 @@ class Base
 
     /**
      * Initialize default Properties for a Taxon.
-     * 
+     *
+     * Because Base classes have no properties, this function simply returns
+     * true.
+     *
      * @since   0.0.1
      * @access  private
      */
@@ -150,8 +155,8 @@ class Base
      * 
      * @since   0.0.1
      * @access  private
-     * @see     initParameters
-     * @see     initProperties
+     * @see     self::initParameters
+     * @see     self::initProperties
      */
     private function init() {
         return $this->initParameters() && $this->initProperties();
@@ -162,12 +167,11 @@ class Base
      *
      * @since   0.0.1
      * @access  public
-     * @var     string  $url
-     * @var     bool    $json   Optional Whether the response should be returned as JSON decoded data. Default true.
+     * @param   string  $url    URL of the PBDB API endpoint to GET.
      * @throws  DomainException If $verb supplied is not supported.
-     * @return  string  String response from the server.
+     * @return  mixed           Parsed JSON response from the server.
      */
-    public function request( $url, $json=true ) {
+    public function request( $url ) {
         return $this->http->get( $url )->json();
     }
 
@@ -175,10 +179,13 @@ class Base
      * Load data from the PBDB.
      *
      * @since   0.0.1
+     * @access  public
+     * @throws  RuntimeException    If attempted to be loaded without an identifier.
+     * @return  mixed               Class instantiation with associated properties.
      */
     public function load() {
         if ( empty( $this->parameters->id->value ) )
-            throw new RuntimeException( "Cannot load GeologicalTimeInterval without id" );
+            throw new RuntimeException( "Cannot load without id" );
 
         $url = sprintf( '%s/%s/single.json?%s', self::BASE_URL, $this->endpoint,
                 $this->parameters->render() );
@@ -186,4 +193,5 @@ class Base
         $this->properties->load( $this->request( $url ) );
         return $this;
     }
+
 }

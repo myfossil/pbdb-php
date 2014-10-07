@@ -4,35 +4,36 @@
  *
  * @link       http://atmoapps.com
  * @since      0.0.1
- *
- * @package    myFOSSIL
- * @subpackage myFOSSIL/PBDB
  */
+
 namespace myFOSSIL\PBDB;
 
 /**
  * GeologicalTimeScale.
  *
- * This class defines all code necessary to interface with the PBDB API for Taxa.
+ * This class defines all code necessary to interface with the PBDB API for
+ * geological time scales.
  *
  * @since      0.0.1
- * @package    myFOSSIL
- * @subpackage myFOSSIL/PBDB
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
 class GeologicalTimeScale extends Base implements BaseInterface
 {
     /**
-     * PBDB API url for Taxa.
+     * PBDB API endpoint for geological time scales.
      *
-     * @since 0.0.1
+     * @since   0.0.1
+     * @access  protected
+     * @var     string      $endpoint   PBDB API endpoint for GeologicalTimeScales.
      */
     protected $endpoint = 'scales';
 
     /**
-     * Define the core functionality of the PBDB Client for GeologicalTimeScale
+     * Define the core functionality of the PBDB Client for
+     * GeologicalTimeScale.
      *
-     * @since 0.0.1
+     * @since   0.0.1
+     * @access  public
      */
     public function __construct() {
         parent::__construct();
@@ -44,7 +45,10 @@ class GeologicalTimeScale extends Base implements BaseInterface
      * 
      * @since   0.0.1
      * @access  private
+     * @return  bool        Returns true upon success, false upon failure.
      * @see     {@link http://www.paleobiodb.org/data1.1/taxa/single_doc.html}
+     * @see     \myFOSSIL\PBDB\Parameter
+     * @see     \myFOSSIL\PBDB\ParameterSet
      */
     private function initParameters() {
 
@@ -68,8 +72,10 @@ class GeologicalTimeScale extends Base implements BaseInterface
      * 
      * @since   0.0.1
      * @access  private
+     * @return  bool        Returns true upon success, false upon failure.
      * @see     {@link http://www.paleobiodb.org/data1.1/taxa/single_doc.html}
      * @see     \myFOSSIL\PBDB\Property
+     * @see     \myFOSSIL\PBDB\PropertySet
      */
     private function initProperties() {
 
@@ -108,8 +114,7 @@ class GeologicalTimeScale extends Base implements BaseInterface
      * 
      * @since   0.0.1
      * @access  private
-     * @see     initParameters
-     * @see     initProperties
+     * @return  bool        Returns true upon success, false upon failure.
      */
     private function init() {
         return $this->initParameters() && $this->initProperties();
@@ -119,6 +124,9 @@ class GeologicalTimeScale extends Base implements BaseInterface
      * Retrieve GeologicalTimeScale by a given identifier in PBDB.
      *
      * @since   0.0.1
+     * @access  public
+     * @param   int         $id         ID of the PBDB time scale.
+     * @return  GeologicalTimeScale     Returns GeologicalTimeScale object with given properties from PBDB.
      */
     public static function factory( $id ) {
         $time_scale = new GeologicalTimeScale;
