@@ -6,7 +6,7 @@
  * @since      0.0.1
  */
 
-namespace myFOSSIL\PBDB;
+namespace myFOSSIL\PBDB\API;
 
 /**
  * Base Set.
@@ -16,7 +16,7 @@ namespace myFOSSIL\PBDB;
  * @since      0.0.1
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
-abstract class BaseSet extends \SplObjectStorage 
+abstract class Set extends \SplObjectStorage 
 {
     /**
      * Remove all objects in the Set.

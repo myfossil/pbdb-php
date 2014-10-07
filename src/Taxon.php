@@ -8,6 +8,8 @@
 
 namespace myFOSSIL\PBDB;
 
+use myFOSSIL\PBDB\API;
+
 /**
  * Taxon.
  *
@@ -16,7 +18,7 @@ namespace myFOSSIL\PBDB;
  * @since      0.0.1
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
-class Taxon extends Base implements BaseInterface
+class Taxon extends API\Object implements API\ObjectInterface
 {
     /**
      * PBDB API endpoint for Taxa.
@@ -44,7 +46,7 @@ class Taxon extends Base implements BaseInterface
      * @access  private
      * @see     {@link http://www.paleobiodb.org/data1.1/taxa/single_doc.html}
      */
-    private function pbdbInitParameters() {
+    private function apiInitParameters() {
 
         // {{{ List of Parameters for a Taxon
         $parameters = array( 
@@ -55,8 +57,8 @@ class Taxon extends Base implements BaseInterface
         // }}}
 
         foreach ( $parameters as $pargs ) {
-            $this->pbdb->addParameter( 
-                    call_user_func_array( __NAMESPACE__ . '\Parameter::factory', $pargs )
+            $this->api->addParameter( 
+                    call_user_func_array( __NAMESPACE__ . '\API\Parameter::factory', $pargs )
                 );
         }
 
@@ -71,7 +73,7 @@ class Taxon extends Base implements BaseInterface
      * @see     {@link http://www.paleobiodb.org/data1.1/taxa/single_doc.html}
      * @see     \myFOSSIL\PBDB\Property
      */
-    private function pbdbInitProperties() {
+    private function apiInitProperties() {
 
         // {{{ List of Properties for a Taxon
         /*
@@ -149,8 +151,8 @@ class Taxon extends Base implements BaseInterface
         // }}}
 
         foreach ( $properties as $pargs ) {
-            $this->pbdb->addProperty( 
-                    call_user_func_array( __NAMESPACE__ . '\Property::factory', $pargs )
+            $this->api->addProperty( 
+                    call_user_func_array( __NAMESPACE__ . '\API\Property::factory', $pargs )
                 );
         }
 
@@ -164,8 +166,8 @@ class Taxon extends Base implements BaseInterface
      * @access  private
      */
     private function init() {
-        $this->pbdb->endpoint = $this->endpoint;
-        return $this->pbdbInitParameters() && $this->pbdbInitProperties();
+        $this->api->endpoint = $this->endpoint;
+        return $this->apiInitParameters() && $this->apiInitProperties();
     }
 
     /**
@@ -176,9 +178,9 @@ class Taxon extends Base implements BaseInterface
      * @return  Taxon   Parent Taxon.
      */
     public function parent() {
-        if ( empty( $this->pbdb->properties->parent_no ) )
-            $this->pbdb->load();
-        return self::factory( $this->pbdb->properties->parent_no->value );
+        if ( empty( $this->api->properties->parent_no ) )
+            $this->api->load();
+        return self::factory( $this->api->properties->parent_no->value );
     }
 
     /**
@@ -190,8 +192,8 @@ class Taxon extends Base implements BaseInterface
      */
     public static function factory( $id ) {
         $taxon = new Taxon;
-        $taxon->pbdb->parameters->id->value = $id;
-        $taxon->pbdb->load();
+        $taxon->api->parameters->id->value = $id;
+        $taxon->api->load();
         return $taxon;
     }
 

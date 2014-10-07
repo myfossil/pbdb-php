@@ -1,20 +1,19 @@
 <?php
 
-use myFOSSIL\PBDB\Parameter;
-use myFOSSIL\PBDB\ParameterSet;
+use myFOSSIL\PBDB\API;
 
 class ParameterSetTest extends PHPUnit_Framework_Testcase {
 
     public function testInstantiation() {
-        $this->assertInstanceOf( 'myFOSSIL\PBDB\ParameterSet', new ParameterSet );
+        $this->assertInstanceOf( 'myFOSSIL\PBDB\API\ParameterSet', new API\ParameterSet );
     }
 
     public function testParameterSetRender() {
         // Setup.
-        $params = new ParameterSet();
-        $params->attach( new Parameter( 'id', 69296, false ) );
-        $params->attach( new Parameter( 'show', 'attr' ) );
-        $params->attach( new Parameter( 'empty', null ) );
+        $params = new API\ParameterSet();
+        $params->attach( new API\Parameter( 'id', 69296, false ) );
+        $params->attach( new API\Parameter( 'show', 'attr' ) );
+        $params->attach( new API\Parameter( 'empty', null ) );
 
         // Test that we're rendering properly.
         $render = $params->render();
@@ -30,10 +29,10 @@ class ParameterSetTest extends PHPUnit_Framework_Testcase {
 
     public function testParameterReset() {
         // Setup.
-        $params = new ParameterSet();
-        $params->attach( new Parameter( 'id', 69296, false ) );
-        $params->attach( new Parameter( 'show', 'attr' ) );
-        $params->attach( new Parameter( 'empty', null ) );
+        $params = new API\ParameterSet();
+        $params->attach( new API\Parameter( 'id', 69296, false ) );
+        $params->attach( new API\Parameter( 'show', 'attr' ) );
+        $params->attach( new API\Parameter( 'empty', null ) );
     
         $this->assertEquals( 3, $params->count() );
 
@@ -42,16 +41,16 @@ class ParameterSetTest extends PHPUnit_Framework_Testcase {
     }
 
     /**
-     * Test that we can get Parameters by ID.
+     * Test that we can get API\Parameters by ID.
      *
      * @expectedException   RuntimeException
      */
     public function testParameterGet() {
         // Setup.
-        $params = new ParameterSet();
-        $params->attach( new Parameter( 'id', 69296, false ) );
-        $params->attach( new Parameter( 'show', 'attr' ) );
-        $params->attach( new Parameter( 'empty', null ) );
+        $params = new API\ParameterSet();
+        $params->attach( new API\Parameter( 'id', 69296, false ) );
+        $params->attach( new API\Parameter( 'show', 'attr' ) );
+        $params->attach( new API\Parameter( 'empty', null ) );
 
         $this->assertEquals( 69296 , $params->id->value );
         $this->assertEquals( 'attr', $params->show->value );

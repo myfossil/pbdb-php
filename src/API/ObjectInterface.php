@@ -6,7 +6,7 @@
  * @since      0.0.1
  */
 
-namespace myFOSSIL\PBDB;
+namespace myFOSSIL\PBDB\API;
 
 /**
  * PBDB API Interface
@@ -14,7 +14,7 @@ namespace myFOSSIL\PBDB;
  * @since      0.0.1
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
-interface BaseInterface
+interface ObjectInterface
 {
     /**
      * Returns instance of class, loaded with given id.

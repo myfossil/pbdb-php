@@ -6,7 +6,7 @@
  * @since      0.0.1
  */
 
-namespace myFOSSIL\PBDB;
+namespace myFOSSIL\PBDB\API;
 
 /**
  * PBDB Client class.
@@ -14,7 +14,7 @@ namespace myFOSSIL\PBDB;
  * @since      0.0.1
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
-class PBDB
+class Client
 {
     /**
      * The PBDB base URL for API requests.

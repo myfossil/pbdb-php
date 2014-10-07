@@ -1,22 +1,22 @@
 <?php
 
-use myFOSSIL\PBDB\Parameter;
+use myFOSSIL\PBDB\API;
 
 class ParameterTest extends PHPUnit_Framework_Testcase {
 
     public function testInstantiation() {
-        $param = new Parameter( 'id', 69296, false );
-        $this->assertInstanceOf( 'myFOSSIL\PBDB\Parameter', $param );
+        $param = new API\Parameter( 'id', 69296, false );
+        $this->assertInstanceOf( 'myFOSSIL\PBDB\API\Parameter', $param );
     }
 
     public function testParameterSetRender() {
-        $param = new Parameter( 'id', 69296, false );
+        $param = new API\Parameter( 'id', 69296, false );
         $this->assertContains( 'id=69296', $param->render() );
                 
-        $param = new Parameter( 'show', 'attr' );
+        $param = new API\Parameter( 'show', 'attr' );
         $this->assertContains( 'show=attr', $param->render() );
 
-        $param = new Parameter( 'empty', null );
+        $param = new API\Parameter( 'empty', null );
         $this->assertNull( $param->render() );
         $this->assertEmpty( $param->render() );
     }

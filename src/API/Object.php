@@ -6,7 +6,7 @@
  * @since      0.0.1
  */
 
-namespace myFOSSIL\PBDB;
+namespace myFOSSIL\PBDB\API;
 
 /**
  * Base class for the PBDB API.
@@ -17,16 +17,16 @@ namespace myFOSSIL\PBDB;
  * @since      0.0.1
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
-class Base
+class Object
 {
     /**
      * The PBDB Client object.
      *
      * @since   0.0.1
      * @access  protected
-     * @var     PBDB        $pbdb
+     * @var     Client      $api
      */
-    public $pbdb;
+    public $api;
 
     /**
      * Define the core functionality of the PBDB Client base.
@@ -35,7 +35,7 @@ class Base
      * @access  public
      */
     public function __construct() {
-        $this->pbdb = new PBDB;
+        $this->api = new Client;
     }
 
 }

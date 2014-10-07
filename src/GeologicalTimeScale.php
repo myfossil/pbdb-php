@@ -8,6 +8,8 @@
 
 namespace myFOSSIL\PBDB;
 
+use myFOSSIL\PBDB\API;
+
 /**
  * GeologicalTimeScale.
  *
@@ -17,7 +19,7 @@ namespace myFOSSIL\PBDB;
  * @since      0.0.1
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
-class GeologicalTimeScale extends Base implements BaseInterface
+class GeologicalTimeScale extends API\Object implements API\ObjectInterface
 {
     /**
      * PBDB API endpoint for geological time scales.
@@ -50,7 +52,7 @@ class GeologicalTimeScale extends Base implements BaseInterface
      * @see     \myFOSSIL\PBDB\Parameter
      * @see     \myFOSSIL\PBDB\ParameterSet
      */
-    private function pbdbInitParameters() {
+    private function apiInitParameters() {
 
         // {{{ List of Parameters for a GeologicalTimeScale
         $parameters = array( 
@@ -59,8 +61,8 @@ class GeologicalTimeScale extends Base implements BaseInterface
         // }}}
 
         foreach ( $parameters as $pargs ) {
-            $this->pbdb->addParameter( 
-                    call_user_func_array( __NAMESPACE__ . '\Parameter::factory', $pargs )
+            $this->api->addParameter( 
+                    call_user_func_array( __NAMESPACE__ . '\API\Parameter::factory', $pargs )
                 );
         }
 
@@ -77,7 +79,7 @@ class GeologicalTimeScale extends Base implements BaseInterface
      * @see     \myFOSSIL\PBDB\Property
      * @see     \myFOSSIL\PBDB\PropertySet
      */
-    private function pbdbInitProperties() {
+    private function apiInitProperties() {
 
         // {{{ List of Properties for a GeologicalTimeScale
         /*
@@ -101,8 +103,8 @@ class GeologicalTimeScale extends Base implements BaseInterface
         // }}}
 
         foreach ( $properties as $pargs ) {
-            $this->pbdb->addProperty( 
-                    call_user_func_array( __NAMESPACE__ . '\Property::factory', $pargs )
+            $this->api->addProperty( 
+                    call_user_func_array( __NAMESPACE__ . '\API\Property::factory', $pargs )
                 );
         }
 
@@ -117,8 +119,8 @@ class GeologicalTimeScale extends Base implements BaseInterface
      * @return  bool        Returns true upon success, false upon failure.
      */
     private function init() {
-        $this->pbdb->endpoint = $this->endpoint;
-        return $this->pbdbInitParameters() && $this->pbdbInitProperties();
+        $this->api->endpoint = $this->endpoint;
+        return $this->apiInitParameters() && $this->apiInitProperties();
     }
 
     /**
@@ -131,8 +133,8 @@ class GeologicalTimeScale extends Base implements BaseInterface
      */
     public static function factory( $id ) {
         $time_scale = new GeologicalTimeScale;
-        $time_scale->pbdb->parameters->id->value = $id;
-        $time_scale->pbdb->load();
+        $time_scale->api->parameters->id->value = $id;
+        $time_scale->api->load();
         return $time_scale;
     }
 

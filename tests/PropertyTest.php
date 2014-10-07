@@ -1,12 +1,12 @@
 <?php
 
-use myFOSSIL\PBDB\Property;
+use myFOSSIL\PBDB\API;
 
 class PropertyTest extends PHPUnit_Framework_Testcase {
 
     public function testInstantiation() {
-        $param = new Property( 'id', 69296, false );
-        $this->assertInstanceOf( 'myFOSSIL\PBDB\Property', $param );
+        $param = new API\Property( 'id', 69296, false );
+        $this->assertInstanceOf( 'myFOSSIL\PBDB\API\Property', $param );
     }
 
 }

@@ -1,20 +1,19 @@
 <?php
 
-use myFOSSIL\PBDB\Property;
-use myFOSSIL\PBDB\PropertySet;
+use myFOSSIL\PBDB\API;
 
 class PropertySetTest extends PHPUnit_Framework_Testcase {
 
     public function testInstantiation() {
-        $this->assertInstanceOf( 'myFOSSIL\PBDB\PropertySet', new PropertySet );
+        $this->assertInstanceOf( 'myFOSSIL\PBDB\API\PropertySet', new API\PropertySet );
     }
 
     public function testPropertyReset() {
         // Setup.
-        $props = new PropertySet();
-        $props->attach( new Property( 'test1', 'tst1', 'test' ) );
-        $props->attach( new Property( 'test2', 'tst2', 'test' ) );
-        $props->attach( new Property( 'test3', 'tst3', 'test' ) );
+        $props = new API\PropertySet();
+        $props->attach( new API\Property( 'test1', 'tst1', 'test' ) );
+        $props->attach( new API\Property( 'test2', 'tst2', 'test' ) );
+        $props->attach( new API\Property( 'test3', 'tst3', 'test' ) );
 
         $this->assertEquals( 3, $props->count() );
 
@@ -29,10 +28,10 @@ class PropertySetTest extends PHPUnit_Framework_Testcase {
      */
     public function testPropertyGet() {
         // Setup.
-        $props = new PropertySet();
-        $props->attach( new Property( 'test1', 'tst1', 'test' ) );
-        $props->attach( new Property( 'test2', 'tst2', 'test' ) );
-        $props->attach( new Property( 'test3', 'tst3', 'test' ) );
+        $props = new API\PropertySet();
+        $props->attach( new API\Property( 'test1', 'tst1', 'test' ) );
+        $props->attach( new API\Property( 'test2', 'tst2', 'test' ) );
+        $props->attach( new API\Property( 'test3', 'tst3', 'test' ) );
 
         $this->assertEquals( 'tst1', $props->test1->compacted );
         $this->assertEquals( 'tst2', $props->test2->compacted );

@@ -6,13 +6,13 @@ class TaxonTest extends PHPUnit_Framework_Testcase {
 
     public function testInstantiation() {
         $taxon = new Taxon();
-        $this->assertGreaterThanOrEqual( 60, $taxon->pbdb->properties->count() );
+        $this->assertGreaterThanOrEqual( 60, $taxon->api->properties->count() );
     }
 
     public function testRetrieveData() {
         $taxon = new Taxon();
-        $taxon->pbdb->parameters->id->value = 69296;
-        $taxon->pbdb->load();
+        $taxon->api->parameters->id->value = 69296;
+        $taxon->api->load();
 
         $test_values = array(
                 'taxon_no'    => 69296,
@@ -26,14 +26,14 @@ class TaxonTest extends PHPUnit_Framework_Testcase {
             );
 
         foreach ( $test_values as $k => $v ) {
-            $this->assertEquals( $v, $taxon->pbdb->properties->$k->value );
+            $this->assertEquals( $v, $taxon->api->properties->$k->value );
         }
     }
 
     public function testParentRetrieve() {
         $taxon = new Taxon();
-        $taxon->pbdb->parameters->id->value = 69296;
-        $taxon->pbdb->load();
+        $taxon->api->parameters->id->value = 69296;
+        $taxon->api->load();
 
         $test_values = array(
                 'Dascilloidea',
@@ -53,7 +53,7 @@ class TaxonTest extends PHPUnit_Framework_Testcase {
 
         foreach ( $test_values as $taxon_name ) {
             $taxon = $taxon->parent();
-            $this->assertEquals( $taxon_name, $taxon->pbdb->properties->taxon_name->value );
+            $this->assertEquals( $taxon_name, $taxon->api->properties->taxon_name->value );
         }
     }
 }

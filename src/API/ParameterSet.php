@@ -6,7 +6,7 @@
  * @since      0.0.1
  */
 
-namespace myFOSSIL\PBDB;
+namespace myFOSSIL\PBDB\API;
 
 /**
  * PBDB Parameter set.
@@ -16,7 +16,7 @@ namespace myFOSSIL\PBDB;
  * @since      0.0.1
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
-class ParameterSet extends BaseSet
+class ParameterSet extends Set
 {
     /**
      * Returns unique identifier used to determine hash in storage array.

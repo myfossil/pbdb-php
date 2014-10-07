@@ -8,6 +8,8 @@
 
 namespace myFOSSIL\PBDB;
 
+use myFOSSIL\PBDB\API;
+
 /**
  * FossilOccurence.
  *
@@ -16,7 +18,7 @@ namespace myFOSSIL\PBDB;
  * @since      0.0.1
  * @package    myFOSSIL
  */
-class FossilOccurence extends Base implements BaseInterface
+class FossilOccurence extends API\Object implements API\ObjectInterface
 {
     /**
      * PBDB API url for Taxa.
@@ -45,7 +47,7 @@ class FossilOccurence extends Base implements BaseInterface
      * @access  private
      * @see     {@link http://www.paleobiodb.org/data1.1/taxa/single_doc.html}
      */
-    private function pbdbInitParameters() {
+    private function apiInitParameters() {
 
         // {{{ List of Parameters for a FossilOccurence
         $parameters = array( 
@@ -56,8 +58,8 @@ class FossilOccurence extends Base implements BaseInterface
         // }}}
 
         foreach ( $parameters as $pargs ) {
-            $this->pbdb->addParameter( 
-                    call_user_func_array( __NAMESPACE__ . '\Parameter::factory', $pargs )
+            $this->api->addParameter( 
+                    call_user_func_array( __NAMESPACE__ . '\API\Parameter::factory', $pargs )
                 );
         }
 
@@ -72,7 +74,7 @@ class FossilOccurence extends Base implements BaseInterface
      * @see     {@link http://www.paleobiodb.org/data1.1/taxa/single_doc.html}
      * @see     \myFOSSIL\PBDB\Property
      */
-    private function pbdbInitProperties() {
+    private function apiInitProperties() {
 
         // {{{ List of Properties for a FossilOccurence
         /*
@@ -173,8 +175,8 @@ class FossilOccurence extends Base implements BaseInterface
         // }}}
 
         foreach ( $properties as $pargs ) {
-            $this->pbdb->addProperty( 
-                    call_user_func_array( __NAMESPACE__ . '\Property::factory', $pargs )
+            $this->api->addProperty( 
+                    call_user_func_array( __NAMESPACE__ . '\API\Property::factory', $pargs )
                 );
         }
 
@@ -189,8 +191,8 @@ class FossilOccurence extends Base implements BaseInterface
      * @return  bool            Returns true upon success, false upon failure.
      */
     private function init() {
-        $this->pbdb->endpoint = $this->endpoint;
-        return $this->pbdbInitParameters() && $this->pbdbInitProperties();
+        $this->api->endpoint = $this->endpoint;
+        return $this->apiInitParameters() && $this->apiInitProperties();
     }
 
     /**
@@ -203,8 +205,8 @@ class FossilOccurence extends Base implements BaseInterface
      */
     public static function factory( $id ) {
         $fossil = new FossilOccurence;
-        $fossil->pbdb->parameters->id->value = $id;
-        $fossil->pbdb->load();
+        $fossil->api->parameters->id->value = $id;
+        $fossil->api->load();
         return $fossil;
     }
 
