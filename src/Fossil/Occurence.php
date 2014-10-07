@@ -6,7 +6,7 @@
  * @since      0.0.1
  */
 
-namespace myFOSSIL\PBDB;
+namespace myFOSSIL\PBDB\Fossil;
 
 use myFOSSIL\PBDB\API;
 
@@ -18,7 +18,7 @@ use myFOSSIL\PBDB\API;
  * @since      0.0.1
  * @package    myFOSSIL
  */
-class FossilOccurence extends API\Object implements API\ObjectInterface
+class Occurence extends API\Object implements API\ObjectInterface
 {
     /**
      * PBDB API url for Taxa.
@@ -59,7 +59,7 @@ class FossilOccurence extends API\Object implements API\ObjectInterface
 
         foreach ( $parameters as $pargs ) {
             $this->api->addParameter( 
-                    call_user_func_array( __NAMESPACE__ . '\API\Parameter::factory', $pargs )
+                    call_user_func_array( 'myFOSSIL\PBDB\API\Parameter::factory', $pargs )
                 );
         }
 
@@ -176,7 +176,7 @@ class FossilOccurence extends API\Object implements API\ObjectInterface
 
         foreach ( $properties as $pargs ) {
             $this->api->addProperty( 
-                    call_user_func_array( __NAMESPACE__ . '\API\Property::factory', $pargs )
+                    call_user_func_array( 'myFOSSIL\PBDB\API\Property::factory', $pargs )
                 );
         }
 

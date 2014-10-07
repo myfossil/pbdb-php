@@ -62,7 +62,7 @@ class GeologicalTimeScale extends API\Object implements API\ObjectInterface
 
         foreach ( $parameters as $pargs ) {
             $this->api->addParameter( 
-                    call_user_func_array( __NAMESPACE__ . '\API\Parameter::factory', $pargs )
+                    call_user_func_array( 'myFOSSIL\PBDB\API\Parameter::factory', $pargs )
                 );
         }
 
@@ -104,7 +104,7 @@ class GeologicalTimeScale extends API\Object implements API\ObjectInterface
 
         foreach ( $properties as $pargs ) {
             $this->api->addProperty( 
-                    call_user_func_array( __NAMESPACE__ . '\API\Property::factory', $pargs )
+                    call_user_func_array( 'myFOSSIL\PBDB\API\Property::factory', $pargs )
                 );
         }
 
