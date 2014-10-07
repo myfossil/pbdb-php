@@ -1,11 +1,11 @@
 <?php
 
-use myFOSSIL\PBDB\Base;
+use myFOSSIL\PBDB\PBDB;
 
-class BaseTest extends PHPUnit_Framework_Testcase {
+class PBDBTest extends PHPUnit_Framework_Testcase {
 
     public function testInstantiation() {
-        $b = new Base();
+        $client = new PBDB;
     }
 
 }
