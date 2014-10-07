@@ -31,5 +31,5 @@ interface BaseInterface
      * @since   0.0.1
      * @access  public
      */
-    public function load();
+    //public function load();
 }

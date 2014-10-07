@@ -6,13 +6,13 @@ class GeologicalTimeScaleTest extends PHPUnit_Framework_Testcase {
 
     public function testInstantiation() {
         $time_scale = new GeologicalTimeScale();
-        $this->assertGreaterThanOrEqual( 5, $time_scale->properties->count() );
+        $this->assertGreaterThanOrEqual( 5, $time_scale->pbdb->properties->count() );
     }
 
     public function testRetrieveData() {
         $time_scale = new GeologicalTimeScale();
-        $time_scale->parameters->id->value = 1;
-        $time_scale->load();
+        $time_scale->pbdb->parameters->id->value = 1;
+        $time_scale->pbdb->load( $time_scale->endpoint() );
 
         $test_values = array(
                 'record_type' => 'timescale',
@@ -21,7 +21,7 @@ class GeologicalTimeScaleTest extends PHPUnit_Framework_Testcase {
             );
 
         foreach ( $test_values as $k => $v ) {
-            $this->assertEquals( $v, $time_scale->properties->$k->value );
+            $this->assertEquals( $v, $time_scale->pbdb->properties->$k->value );
         }
     }
 

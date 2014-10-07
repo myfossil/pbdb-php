@@ -45,7 +45,7 @@ class FossilOccurence extends Base implements BaseInterface
      * @access  private
      * @see     {@link http://www.paleobiodb.org/data1.1/taxa/single_doc.html}
      */
-    private function initParameters() {
+    private function pbdbInitParameters() {
 
         // {{{ List of Parameters for a FossilOccurence
         $parameters = array( 
@@ -56,7 +56,7 @@ class FossilOccurence extends Base implements BaseInterface
         // }}}
 
         foreach ( $parameters as $pargs ) {
-            $this->addParameter( 
+            $this->pbdb->addParameter( 
                     call_user_func_array( __NAMESPACE__ . '\Parameter::factory', $pargs )
                 );
         }
@@ -72,7 +72,7 @@ class FossilOccurence extends Base implements BaseInterface
      * @see     {@link http://www.paleobiodb.org/data1.1/taxa/single_doc.html}
      * @see     \myFOSSIL\PBDB\Property
      */
-    private function initProperties() {
+    private function pbdbInitProperties() {
 
         // {{{ List of Properties for a FossilOccurence
         /*
@@ -173,7 +173,7 @@ class FossilOccurence extends Base implements BaseInterface
         // }}}
 
         foreach ( $properties as $pargs ) {
-            $this->addProperty( 
+            $this->pbdb->addProperty( 
                     call_user_func_array( __NAMESPACE__ . '\Property::factory', $pargs )
                 );
         }
@@ -189,7 +189,7 @@ class FossilOccurence extends Base implements BaseInterface
      * @return  bool            Returns true upon success, false upon failure.
      */
     private function init() {
-        return $this->initParameters() && $this->initProperties();
+        return $this->pbdbInitParameters() && $this->pbdbInitProperties();
     }
 
     /**
@@ -202,8 +202,8 @@ class FossilOccurence extends Base implements BaseInterface
      */
     public static function factory( $id ) {
         $fossil = new FossilOccurence;
-        $fossil->parameters->id->value = $id;
-        $fossil->load();
+        $fossil->pbdb->parameters->id->value = $id;
+        $fossil->pbdb->load( $this->endpoint );
         return $fossil;
     }
 

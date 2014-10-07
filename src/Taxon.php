@@ -27,7 +27,7 @@ class Taxon extends Base implements BaseInterface
     protected $endpoint = 'taxa';
 
     /**
-     * Define the core functionality of the PBDB Client for Taxon
+     * Define the core functionality of the PBDB PBDB for Taxon
      *
      * @since   0.0.1
      * @access  public
@@ -44,7 +44,7 @@ class Taxon extends Base implements BaseInterface
      * @access  private
      * @see     {@link http://www.paleobiodb.org/data1.1/taxa/single_doc.html}
      */
-    private function initParameters() {
+    private function pbdbInitParameters() {
 
         // {{{ List of Parameters for a Taxon
         $parameters = array( 
@@ -55,7 +55,7 @@ class Taxon extends Base implements BaseInterface
         // }}}
 
         foreach ( $parameters as $pargs ) {
-            $this->addParameter( 
+            $this->pbdb->addParameter( 
                     call_user_func_array( __NAMESPACE__ . '\Parameter::factory', $pargs )
                 );
         }
@@ -71,7 +71,7 @@ class Taxon extends Base implements BaseInterface
      * @see     {@link http://www.paleobiodb.org/data1.1/taxa/single_doc.html}
      * @see     \myFOSSIL\PBDB\Property
      */
-    private function initProperties() {
+    private function pbdbInitProperties() {
 
         // {{{ List of Properties for a Taxon
         /*
@@ -149,7 +149,7 @@ class Taxon extends Base implements BaseInterface
         // }}}
 
         foreach ( $properties as $pargs ) {
-            $this->addProperty( 
+            $this->pbdb->addProperty( 
                     call_user_func_array( __NAMESPACE__ . '\Property::factory', $pargs )
                 );
         }
@@ -164,7 +164,7 @@ class Taxon extends Base implements BaseInterface
      * @access  private
      */
     private function init() {
-        return $this->initParameters() && $this->initProperties();
+        return $this->pbdbInitParameters() && $this->pbdbInitProperties();
     }
 
     /**
@@ -175,9 +175,9 @@ class Taxon extends Base implements BaseInterface
      * @return  Taxon   Parent Taxon.
      */
     public function parent() {
-        if ( empty( $this->properties->parent_no ) )
-            $this->load();
-        return self::factory( $this->properties->parent_no->value );
+        if ( empty( $this->pbdb->properties->parent_no ) )
+            $this->pbdb->load( $this->endpoint );
+        return self::factory( $this->pbdb->properties->parent_no->value );
     }
 
     /**
@@ -189,8 +189,8 @@ class Taxon extends Base implements BaseInterface
      */
     public static function factory( $id ) {
         $taxon = new Taxon;
-        $taxon->parameters->id->value = $id;
-        $taxon->load();
+        $taxon->pbdb->parameters->id->value = $id;
+        $taxon->pbdb->load( $taxon->endpoint() );
         return $taxon;
     }
 

@@ -102,7 +102,7 @@ class PBDB
      * @since   0.0.1
      * @access  private
      */
-    private function initParameters() {
+    private function pbdbInitParameters() {
         // PBDB API default vocabulary.
         $this->parameters->attach( new Parameter( 'vocab', 'pbdb' ) );
 
@@ -143,7 +143,7 @@ class PBDB
      * @since   0.0.1
      * @access  private
      */
-    private function initProperties() {
+    private function pbdbInitProperties() {
         return true;
     }
 
@@ -152,11 +152,11 @@ class PBDB
      * 
      * @since   0.0.1
      * @access  private
-     * @see     self::initParameters
-     * @see     self::initProperties
+     * @see     self::pbdbInitParameters
+     * @see     self::pbdbInitProperties
      */
     private function init() {
-        return $this->initParameters() && $this->initProperties();
+        return $this->pbdbInitParameters() && $this->pbdbInitProperties();
     }
 
     /**
