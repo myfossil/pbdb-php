@@ -40,6 +40,53 @@ class Taxon extends API\Object implements API\ObjectInterface
     }
 
     /**
+     * Custom getter map to proxy between the API values.
+     *
+     * @since   0.0.1
+     * @access  public
+     */
+    public function __get( $key ) {
+        if ( property_exists( $this, $key ) )
+            return $this->$key;
+
+        switch ( $key ) {
+            case 'oid':
+                return $this->api->properties->taxon_no->value;
+                break;
+            case 'name':
+                return $this->api->properties->taxon_name->value;
+                break;
+            case 'common_name':
+                return $this->api->properties->common_name->value;
+                break;
+            case 'parent':
+                return self::factory( $this->api->properties->parent_no->value );
+                break;
+            case 'extant':
+                return (bool) $this->api->properties->is_extant->value;
+                break;
+            case 'taxon':
+                $_key = !isset( $_key ) ? 'taxon_no' : $_key;
+            case 'kingdom':
+                $_key = !isset( $_key ) ? 'kingdom_no' : $_key;
+            case 'phylum':
+                $_key = !isset( $_key ) ? 'phylum_no' : $_key;
+            case 'class':
+                $_key = !isset( $_key ) ? 'class_no' : $_key;
+            case 'order':
+                $_key = !isset( $_key ) ? 'order_no' : $_key;
+            case 'family':
+                $_key = !isset( $_key ) ? 'family_no' : $_key;
+                return self::factory( $this->api->properties->$_key->value );
+                break;
+            default:
+                throw new DomainException( 'Invalid property.' );
+        }
+
+        return null;
+    }
+
+    /**
      * Initialize default Parameters for a Taxon.
      * 
      * @since   0.0.1

@@ -25,4 +25,17 @@ class FossilOccurenceTest extends PHPUnit_Framework_Testcase {
         }
     }
 
+    public function testAbstractedRetrieveData() {
+        $fossil = new Occurence;
+        $fossil->oid = 1001;
+        $fossil->load();
+
+        $this->assertContains( "Wellerellidae", $fossil->family->name );
+        $this->assertContains( "Rhynchonellida", $fossil->order->name );
+        $this->assertContains( "Rhynchonellata", $fossil->class->name );
+        $this->assertContains( "Brachiopoda", $fossil->phylum->name );
+        $this->assertContains( "Wellerella", $fossil->genus->name );
+        $this->assertContains( "Wellerella", $fossil->taxon->name );
+    }
+
 }

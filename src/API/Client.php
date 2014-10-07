@@ -193,7 +193,7 @@ class Client
      */
     public function load( $type='single', $format='json' ) {
         if ( empty( $this->parameters->id->value ) )
-            throw new RuntimeException( "Cannot load without id" );
+            throw new \RuntimeException( "Cannot load without id" );
 
         $url = sprintf( '%s/%s/%s.%s?%s', self::BASE_URL, $this->endpoint,
                 $type, $format, $this->parameters->render() );

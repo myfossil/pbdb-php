@@ -43,6 +43,43 @@ class GeologicalTimeScale extends API\Object implements API\ObjectInterface
     }
 
     /**
+     * Custom getter map to proxy between the API values.
+     *
+     * @since   0.0.1
+     * @access  public
+     */
+    public function __get( $key ) {
+        if ( property_exists( $this, $key ) )
+            return $this->$key;
+
+        switch ( $key ) {
+            case 'oid':
+                return $this->api->scale_no->value;
+                break;
+            case 'name':
+                return $this->api->scale_name->value;
+                break;
+            case 'level':
+                return $this->api->level_name->value;
+                break;
+            case 'start':
+            case 't0':
+                return $this->api->early_age->value;
+                break;
+            case 'end':
+            case 't1':
+            case 'tf':
+                return $this->api->late_age->value;
+                break;
+            default:
+                throw new DomainException( 'Invalid property.' );
+        }
+
+        return null;
+    }
+
+
+    /**
      * Initialize default Parameters for a GeologicalTimeScale.
      * 
      * @since   0.0.1

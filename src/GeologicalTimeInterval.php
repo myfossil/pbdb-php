@@ -41,6 +41,51 @@ class GeologicalTimeInterval extends API\Object implements API\ObjectInterface
     }
 
     /**
+     * Custom getter map to proxy between the API values.
+     *
+     * @since   0.0.1
+     * @access  public
+     */
+    public function __get( $key ) {
+        if ( property_exists( $this, $key ) )
+            return $this->$key;
+
+        switch ( $key ) {
+            case 'oid':
+                return $this->api->interval_no->value;
+                break;
+            case 'name':
+                return $this->api->interval_name->value;
+                break;
+            case 'abbreviation':
+                return $this->api->abbrev->value;
+                break;
+            case 'parent':
+                return self::factory( $this->api->parent_no->value );
+                break;
+            case 'color':
+                return $this->api->color->value;
+                break;
+            case 'scale':
+                return GeologicalTimeScale::factory( $this->api->scale_no->value );
+                break;
+            case 'start':
+            case 't0':
+                return $this->api->early_age->value;
+                break;
+            case 'end':
+            case 't1':
+            case 'tf':
+                return $this->api->late_age->value;
+                break;
+            default:
+                throw new DomainException( 'Invalid property.' );
+        }
+
+        return null;
+    }
+
+    /**
      * Initialize default Parameters for a GeologicalTimeInterval.
      * 
      * @since   0.0.1

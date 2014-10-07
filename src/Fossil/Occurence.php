@@ -9,6 +9,7 @@
 namespace myFOSSIL\PBDB\Fossil;
 
 use myFOSSIL\PBDB\API;
+use myFOSSIL\PBDB;
 
 /**
  * FossilOccurence.
@@ -38,6 +39,75 @@ class Occurence extends API\Object implements API\ObjectInterface
     public function __construct() {
         parent::__construct();
         $this->init();
+    }
+
+    /**
+     * Custom getter map to proxy between the API values.
+     *
+     * @since   0.0.1
+     * @access  public
+     */
+    public function __get( $key ) {
+        if ( property_exists( $this, $key ) )
+            return $this->$key;
+
+        switch ( $key ) {
+            case 'oid':
+                return $this->api->properties->occurence_no->value;
+                break;
+            case 'reidentification':
+                return self::factory( $this->api->properties->reid_no->value );
+                break;
+            case 'species':
+                return $this->api->properties->species_name->value;
+                break;
+            case 'taxon':
+            case 'genus':
+                $_key = !isset( $_key ) ? 'taxon_no' : $_key;
+            case 'kingdom':
+                $_key = !isset( $_key ) ? 'kingdom_no' : $_key;
+            case 'phylum':
+                $_key = !isset( $_key ) ? 'phylum_no' : $_key;
+            case 'class':
+                $_key = !isset( $_key ) ? 'class_no' : $_key;
+            case 'order':
+                $_key = !isset( $_key ) ? 'order_no' : $_key;
+            case 'family':
+                $_key = !isset( $_key ) ? 'family_no' : $_key;
+                return PBDB\Taxon::factory( $this->api->properties->$_key->value );
+                break;
+            default:
+                throw new \DomainException( 'Invalid property ' . $key );
+        }
+
+        return null;
+    }
+
+    /**
+     * Custom setter map to proxy between the API values.
+     *
+     * @since   0.0.1
+     * @access  public
+     */
+    public function __set( $key, $value ) {
+        if ( property_exists( $this, $key ) )
+            return $this->$key = $value;
+
+        switch ( $key ) {
+            case 'oid':
+                $this->api->parameters->id->value = $value;
+                break;
+            default:
+                throw new \DomainException( 'Invalid property ' . $key );
+        }
+    }
+
+    public function load() {
+        foreach ( $this->blocks() as $block ) {
+            $this->api->parameters->show->value = $block;
+            $this->api->load();
+        }
+        return $this;
     }
 
     /**
@@ -163,14 +233,6 @@ class Occurence extends API\Object implements API\ObjectInterface
                 array('geology_comments', 'gcm', 'geo'), 
                 array('collection_aka', 'crm', 'rem'), 
                 array('primary_reference', 'ref', 'ref'), 
-                array('authorizer_no', 'ati', 'ent, entname'), 
-                array('enterer_no', 'eni', 'ent, entname'), 
-                array('modifier_no', 'mdi', 'ent, entname'), 
-                array('authorizer', 'ath', 'entname'), 
-                array('enterer', 'ent', 'entname'), 
-                array('modifier', 'mdf', 'entname'), 
-                array('created', 'dcr', 'crmod'), 
-                array('modified', 'dmd', 'crmod')
             );
         // }}}
 
@@ -181,6 +243,23 @@ class Occurence extends API\Object implements API\ObjectInterface
         }
 
         return true;
+    }
+
+    /**
+     * Return the `show` blocks for all parameters.
+     *
+     * @since   0.0.1
+     * @access  public
+     */
+    public function blocks() {
+        $blocks = array();
+        foreach ( $this->api->properties as $property ) {
+            foreach ( $property->block as $blk ) {
+                $blocks[] = $blk;
+            }
+        }
+
+        return array_unique( $blocks );
     }
 
     /**
