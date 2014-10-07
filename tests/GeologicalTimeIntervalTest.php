@@ -12,7 +12,7 @@ class GeologicalTimeIntervalTest extends PHPUnit_Framework_Testcase {
     public function testRetrieveData() {
         $time_interval = new GeologicalTimeInterval();
         $time_interval->pbdb->parameters->id->value = 16;
-        $time_interval->pbdb->load( $time_interval->endpoint() );
+        $time_interval->pbdb->load();
 
         $test_values = array(
                 'record_type' => 'interval',

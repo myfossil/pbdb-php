@@ -117,6 +117,7 @@ class GeologicalTimeScale extends Base implements BaseInterface
      * @return  bool        Returns true upon success, false upon failure.
      */
     private function init() {
+        $this->pbdb->endpoint = $this->endpoint;
         return $this->pbdbInitParameters() && $this->pbdbInitProperties();
     }
 
@@ -131,7 +132,7 @@ class GeologicalTimeScale extends Base implements BaseInterface
     public static function factory( $id ) {
         $time_scale = new GeologicalTimeScale;
         $time_scale->pbdb->parameters->id->value = $id;
-        $time_scale->pbdb->load( $this->endpoint );
+        $time_scale->pbdb->load();
         return $time_scale;
     }
 

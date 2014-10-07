@@ -116,6 +116,7 @@ class GeologicalTimeInterval extends Base implements BaseInterface
      * @return  bool    Returns true upon success, false upon failure.
      */
     private function init() {
+        $this->pbdb->endpoint = $this->endpoint;
         return $this->pbdbInitParameters() && $this->pbdbInitProperties();
     }
 
@@ -129,7 +130,7 @@ class GeologicalTimeInterval extends Base implements BaseInterface
     public static function factory( $id ) {
         $time_interval = new GeologicalTimeInterval;
         $time_interval->pbdb->parameters->id->value = $id;
-        $time_interval->pbdb->load( $this->endpoint );
+        $time_interval->pbdb->load();
         return $time_interval;
     }
 

@@ -164,6 +164,7 @@ class Taxon extends Base implements BaseInterface
      * @access  private
      */
     private function init() {
+        $this->pbdb->endpoint = $this->endpoint;
         return $this->pbdbInitParameters() && $this->pbdbInitProperties();
     }
 
@@ -176,7 +177,7 @@ class Taxon extends Base implements BaseInterface
      */
     public function parent() {
         if ( empty( $this->pbdb->properties->parent_no ) )
-            $this->pbdb->load( $this->endpoint );
+            $this->pbdb->load();
         return self::factory( $this->pbdb->properties->parent_no->value );
     }
 
@@ -190,7 +191,7 @@ class Taxon extends Base implements BaseInterface
     public static function factory( $id ) {
         $taxon = new Taxon;
         $taxon->pbdb->parameters->id->value = $id;
-        $taxon->pbdb->load( $taxon->endpoint() );
+        $taxon->pbdb->load();
         return $taxon;
     }
 

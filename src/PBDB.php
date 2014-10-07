@@ -25,6 +25,14 @@ class PBDB
     const BASE_URL = 'http://paleobiodb.org/data1.1';
 
     /**
+     * PBDB API endpoint.
+     *
+     * @since   0.0.1
+     * @access  protected
+     */
+    public $endpoint;
+
+    /**
      * The \GuzzleHttp\Client object used to make requests.
      *
      * @since   0.0.1
@@ -64,7 +72,8 @@ class PBDB
      * @since   0.0.1
      * @access  public
      */
-    public function __construct() {
+    public function __construct( $endpoint=null ) {
+        $this->endpoint = $endpoint;
         $this->http = new \GuzzleHttp\Client( ['base_url' => self::BASE_URL] );
         $this->parameters = new ParameterSet();
         $this->properties = new PropertySet();
@@ -177,18 +186,17 @@ class PBDB
      *
      * @since   0.0.1
      * @access  public
-     * @param   string  $endpoint               PBDB API endpoint (URL parameter).
      * @param   string  $type       Optional    PBDB API endpoint type (default 'single').
      * @param   string  $format     Optional    PBDB API response format (default 'json').
      * @throws  RuntimeException                If attempted to be loaded without an identifier.
      * @return  mixed                           Class instantiation with associated properties.
      */
-    public function load( $endpoint, $type='single', $format='json' ) {
+    public function load( $type='single', $format='json' ) {
         if ( empty( $this->parameters->id->value ) )
             throw new RuntimeException( "Cannot load without id" );
 
-        $url = sprintf( '%s/%s/%s.%s?%s', self::BASE_URL, $endpoint, $type,
-                $format, $this->parameters->render() );
+        $url = sprintf( '%s/%s/%s.%s?%s', self::BASE_URL, $this->endpoint,
+                $type, $format, $this->parameters->render() );
 
         $this->properties->load( $this->request( $url ) );
         return $this;

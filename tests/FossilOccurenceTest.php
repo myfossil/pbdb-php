@@ -12,7 +12,7 @@ class FossilOccurenceTest extends PHPUnit_Framework_Testcase {
     public function testRetrieveData() {
         $fossil = new FossilOccurence();
         $fossil->pbdb->parameters->id->value = 1001;
-        $fossil->pbdb->load( $fossil->endpoint() );
+        $fossil->pbdb->load();
 
         $test_values = array(
                 'occurrence_no' => 1001,

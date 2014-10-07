@@ -12,7 +12,7 @@ class GeologicalTimeScaleTest extends PHPUnit_Framework_Testcase {
     public function testRetrieveData() {
         $time_scale = new GeologicalTimeScale();
         $time_scale->pbdb->parameters->id->value = 1;
-        $time_scale->pbdb->load( $time_scale->endpoint() );
+        $time_scale->pbdb->load();
 
         $test_values = array(
                 'record_type' => 'timescale',

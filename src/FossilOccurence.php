@@ -189,6 +189,7 @@ class FossilOccurence extends Base implements BaseInterface
      * @return  bool            Returns true upon success, false upon failure.
      */
     private function init() {
+        $this->pbdb->endpoint = $this->endpoint;
         return $this->pbdbInitParameters() && $this->pbdbInitProperties();
     }
 
@@ -203,7 +204,7 @@ class FossilOccurence extends Base implements BaseInterface
     public static function factory( $id ) {
         $fossil = new FossilOccurence;
         $fossil->pbdb->parameters->id->value = $id;
-        $fossil->pbdb->load( $this->endpoint );
+        $fossil->pbdb->load();
         return $fossil;
     }
 

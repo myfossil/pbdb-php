@@ -12,7 +12,7 @@ class TaxonTest extends PHPUnit_Framework_Testcase {
     public function testRetrieveData() {
         $taxon = new Taxon();
         $taxon->pbdb->parameters->id->value = 69296;
-        $taxon->pbdb->load( $taxon->endpoint() );
+        $taxon->pbdb->load();
 
         $test_values = array(
                 'taxon_no'    => 69296,
@@ -33,7 +33,7 @@ class TaxonTest extends PHPUnit_Framework_Testcase {
     public function testParentRetrieve() {
         $taxon = new Taxon();
         $taxon->pbdb->parameters->id->value = 69296;
-        $taxon->pbdb->load( $taxon->endpoint() );
+        $taxon->pbdb->load();
 
         $test_values = array(
                 'Dascilloidea',

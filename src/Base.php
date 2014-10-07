@@ -38,14 +38,4 @@ class Base
         $this->pbdb = new PBDB;
     }
 
-    /**
-     * Returns the PBDB API endpoint.
-     *
-     * @since   0.0.1
-     * @access  public
-     */
-    public function endpoint() {
-        return $this->endpoint;
-    }
-
 }
