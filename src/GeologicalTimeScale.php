@@ -72,7 +72,7 @@ class GeologicalTimeScale extends API\Object implements API\ObjectInterface
                 return $this->api->late_age->value;
                 break;
             default:
-                throw new DomainException( 'Invalid property.' );
+                throw new \DomainException( 'Invalid property.' );
         }
 
         return null;

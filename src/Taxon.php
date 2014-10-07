@@ -80,7 +80,7 @@ class Taxon extends API\Object implements API\ObjectInterface
                 return self::factory( $this->api->properties->$_key->value );
                 break;
             default:
-                throw new DomainException( 'Invalid property.' );
+                throw new \DomainException( 'Invalid property.' );
         }
 
         return null;
