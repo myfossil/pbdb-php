@@ -1,8 +1,8 @@
 {
     "name": "myfossil/pbdb",
-    "description": "API client for the PaleoBio Database (PBDB)",
+    "description": "PHP client for the Paleobiology Database API",
     "license": "BSD",
-    "keywords": ["pbdb", "paleobiodb", "paleobio"],
+    "keywords": ["pbdb", "paleobiodb", "paleobiology", "taxonomy"],
     "authors": [
         {
             "name": "Brandon Wood",
