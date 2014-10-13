@@ -6,10 +6,9 @@
  * @since      0.0.1
  */
 
-namespace myFOSSIL\PBDB\Fossil;
+namespace myFOSSIL\PBDB;
 
 use myFOSSIL\PBDB\API;
-use myFOSSIL\PBDB;
 
 /**
  * FossilOccurence.
@@ -19,7 +18,7 @@ use myFOSSIL\PBDB;
  * @since      0.0.1
  * @package    myFOSSIL
  */
-class Occurence extends API\Object implements API\ObjectInterface
+class FossilOccurence extends API\Object implements API\ObjectInterface
 {
     /**
      * PBDB API url for Taxa.
@@ -74,7 +73,7 @@ class Occurence extends API\Object implements API\ObjectInterface
                 $_key = !isset( $_key ) ? 'order_no' : $_key;
             case 'family':
                 $_key = !isset( $_key ) ? 'family_no' : $_key;
-                return PBDB\Taxon::factory( $this->api->properties->$_key->value );
+                return Taxon::factory( $this->api->properties->$_key->value );
                 break;
             default:
                 throw new \DomainException( 'Invalid property ' . $key );

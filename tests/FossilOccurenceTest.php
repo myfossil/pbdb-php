@@ -1,16 +1,16 @@
 <?php
 
-use myFOSSIL\PBDB\Fossil\Occurence;
+use myFOSSIL\PBDB\FossilOccurence;
 
 class FossilOccurenceTest extends PHPUnit_Framework_Testcase {
 
     public function testInstantiation() {
-        $fossil = new Occurence;
+        $fossil = new FossilOccurence;
         $this->assertGreaterThanOrEqual( 60, $fossil->api->properties->count() );
     }
 
     public function testRetrieveData() {
-        $fossil = new Occurence;
+        $fossil = new FossilOccurence;
         $fossil->api->parameters->id->value = 1001;
         $fossil->api->load();
 
@@ -26,7 +26,7 @@ class FossilOccurenceTest extends PHPUnit_Framework_Testcase {
     }
 
     public function testAbstractedRetrieveData() {
-        $fossil = new Occurence;
+        $fossil = new FossilOccurence;
         $fossil->oid = 1001;
         $fossil->load();
 
