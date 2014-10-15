@@ -23,8 +23,6 @@ class PropertySetTest extends PHPUnit_Framework_Testcase {
 
     /**
      * Test that we can get Properties by ID.
-     *
-     * @expectedException   RuntimeException
      */
     public function testPropertyGet() {
         // Setup.
@@ -37,7 +35,7 @@ class PropertySetTest extends PHPUnit_Framework_Testcase {
         $this->assertEquals( 'tst2', $props->test2->compacted );
         $this->assertContains( 'test', $props->test3->block );
 
-        $this->assertEquals( 'noexist', $props->noexist->value );
+        $this->assertNull( $props->noexist );
     }
 
 }

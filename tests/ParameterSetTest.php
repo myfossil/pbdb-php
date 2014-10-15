@@ -42,8 +42,6 @@ class ParameterSetTest extends PHPUnit_Framework_Testcase {
 
     /**
      * Test that we can get API\Parameters by ID.
-     *
-     * @expectedException   RuntimeException
      */
     public function testParameterGet() {
         // Setup.
@@ -56,7 +54,7 @@ class ParameterSetTest extends PHPUnit_Framework_Testcase {
         $this->assertEquals( 'attr', $params->show->value );
         $this->assertEquals( null  , $params->empty->value );
 
-        $this->assertEquals( null  , $params->noexist->value );
+        $this->assertNull( $params->noexist );
     }
 
 }

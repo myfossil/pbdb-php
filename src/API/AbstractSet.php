@@ -34,7 +34,6 @@ abstract class AbstractSet extends \SplObjectStorage
      * from given parameter or property sets.
      *
      * @since   0.0.1
-     * @throws  \RuntimeException   If the set does not contain the key provided.
      * @param   mixed   $key        Hash resulting from obj::getHash()
      * @return  mixed               Object with a given hash key.
      */
@@ -42,9 +41,7 @@ abstract class AbstractSet extends \SplObjectStorage
         foreach ( $this as $obj )
             if ( $this->getHash( $obj ) == $key )
                 return $obj;
-
-        // Key not found, trigger error
-        throw new \RuntimeException( "Set does not contain the provided key $key." );
+        return null;
     }
 
 }
