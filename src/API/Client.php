@@ -192,8 +192,8 @@ class Client
      * @return  mixed                           Class instantiation with associated properties.
      */
     public function load( $type='single', $format='json' ) {
-        if ( empty( $this->parameters->id->value ) )
-            throw new \RuntimeException( "Cannot load without id" );
+        if ( !$this->parameters->id->value && $type == 'single' )
+            return false;
 
         foreach ( $this->blocks() as $block ) {
             if ( $block !== 'basic' ) 
