@@ -195,11 +195,35 @@ class Client
         if ( empty( $this->parameters->id->value ) )
             throw new \RuntimeException( "Cannot load without id" );
 
-        $url = sprintf( '%s/%s/%s.%s?%s', self::BASE_URL, $this->endpoint,
-                $type, $format, $this->parameters->render() );
+        foreach ( $this->blocks() as $block ) {
+            if ( $block !== 'basic' ) 
+                $this->parameters->show->value = $block;
+            $this->properties->load( $this->request( $this->url() ) );
+        }
 
-        $this->properties->load( $this->request( $url ) );
         return $this;
+    }
+
+    public function url( $type='single', $format='json' ) {
+        return sprintf( '%s/%s/%s.%s?%s', self::BASE_URL, $this->endpoint,
+                $type, $format, $this->parameters->render() );
+    }
+
+    /**
+     * Return the `show` blocks for all parameters.
+     *
+     * @since   0.0.1
+     * @access  public
+     */
+    public function blocks() {
+        $blocks = array();
+        foreach ( $this->properties as $property ) {
+            foreach ( $property->block as $blk ) {
+                $blocks[] = $blk;
+            }
+        }
+
+        return array_unique( $blocks );
     }
 
 }

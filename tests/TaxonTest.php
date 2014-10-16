@@ -56,4 +56,33 @@ class TaxonTest extends PHPUnit_Framework_Testcase {
             $this->assertEquals( $taxon_name, $taxon->api->properties->taxon_name->value );
         }
     }
+
+    public function testFactory() {
+        $taxon = Taxon::factory( 53140 );
+        $this->assertEquals( $taxon->name, "Pinocetus polonicus" );
+    }
+
+    /**
+     */
+    public function testHierarchy() {
+        // from {@link http://paleobiodb.org/data1.1/taxa/single.json?id=53140}
+        $data = array(
+                'species' => "Pinocetus polonicus",
+                'genus' => "Pinocetus",
+                'family' => "Aglaocetidae",
+                'order' => "Cetacea",
+                'class' => "Mammalia",
+                'phylum' => "Chordata",
+                'kingdom' => "Metazoa",
+            );
+
+        $taxon = Taxon::factory( 53140 );
+
+        foreach ( $data as $lvl => $taxon_name ) {
+            $expected = $taxon_name;
+            $observed = is_null( $taxon->{ $lvl } ) ? -1 : $taxon->{ $lvl }->name;
+            $this->assertEquals( $expected, $observed );
+        }
+
+    }
 }

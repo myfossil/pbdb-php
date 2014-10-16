@@ -37,6 +37,11 @@ class Object
     public $uuid;
 
     /**
+     * Cache
+     */
+    protected $_cache;
+
+    /**
      * Define the core functionality of the PBDB Client base.
      *
      * @since   0.0.1
@@ -44,6 +49,7 @@ class Object
      */
     public function __construct() {
         $this->api = new Client;
+        $this->_cache = new \stdClass;
     }
 
     /**
@@ -55,6 +61,14 @@ class Object
     public function __get( $key ) {
         if ( property_exists( $this, $key ) )
             return $this->$key;
+
+        if ( property_exists( $this->_cache, $key ) 
+                && isset( $this->_cache->{ $key } ) 
+                && !empty( $this->_cache->{ $key } ) 
+                && !is_null( $this->_cache->{ $key } ) )
+            return $this->_cache->$key;
+
+        return null;
     }
 
 }

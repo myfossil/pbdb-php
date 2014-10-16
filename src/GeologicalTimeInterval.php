@@ -100,6 +100,7 @@ class GeologicalTimeInterval extends API\Object implements API\ObjectInterface
         // {{{ List of Parameters for a GeologicalTimeInterval
         $parameters = array( 
                 array( 'id', null, false ),
+                array( 'show', null, false ),
             );
         // }}}
 

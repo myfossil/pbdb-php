@@ -26,9 +26,7 @@ class FossilOccurenceTest extends PHPUnit_Framework_Testcase {
     }
 
     public function testAbstractedRetrieveData() {
-        $fossil = new FossilOccurence;
-        $fossil->oid = 1001;
-        $fossil->load();
+        $fossil = FossilOccurence::factory( 1001 );
 
         $this->assertContains( "Wellerellidae", $fossil->family->name );
         $this->assertContains( "Rhynchonellida", $fossil->order->name );

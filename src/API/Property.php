@@ -102,6 +102,10 @@ class Property
         $this->description = $description;
     }
 
+    public function __toString() {
+        return sprintf( "%s => %s", $this->pbdb, $this->value );
+    }
+
     /**
      * Create a new Property object.
      *

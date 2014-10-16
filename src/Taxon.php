@@ -46,8 +46,12 @@ class Taxon extends API\Object implements API\ObjectInterface
      * @access  public
      */
     public function __get( $key ) {
-        if ( property_exists( $this, $key ) )
-            return $this->$key;
+        if ( !in_array( $key, array( 'species', 'genius', 'family', 'order',
+                        'class', 'phylum', 'kingdom' ) ) ) {
+            $p = parent::__get( $key );
+            if ( !is_null( $p ) )
+                return $p;
+        }
 
         switch ( $key ) {
             case 'oid':
@@ -65,8 +69,20 @@ class Taxon extends API\Object implements API\ObjectInterface
             case 'extant':
                 return (bool) $this->api->properties->is_extant->value;
                 break;
-            case 'taxon':
-                $_key = !isset( $_key ) ? 'taxon_no' : $_key;
+            case 'species':
+                // If this taxon is not the species, then we cannot know which
+                // species we want to get.
+                if ( $this->api->properties->rank->value == 'species' )
+                    return $this;
+                return null;
+                break;
+            case 'genus':
+                if ( $this->api->properties->rank->value == 'species' )
+                    $_key = !isset( $_key ) ? 'parent_no' : $_key;
+                else
+                    return null;
+            case 'order':
+                $_key = !isset( $_key ) ? 'order_no' : $_key;
             case 'kingdom':
                 $_key = !isset( $_key ) ? 'kingdom_no' : $_key;
             case 'phylum':
@@ -77,10 +93,28 @@ class Taxon extends API\Object implements API\ObjectInterface
                 $_key = !isset( $_key ) ? 'order_no' : $_key;
             case 'family':
                 $_key = !isset( $_key ) ? 'family_no' : $_key;
-                return self::factory( $this->api->properties->$_key->value );
+
+                /*
+                 * Because we provided no break statements, execution falls
+                 * all the down to here. Furthermore, parent::__get would have
+                 * returned a cached object if we had one to offer, so we're
+                 * making a new one and returning it.
+                 */
+                if ( !is_null( $this->api->properties->$_key ) ) {
+                    $this->_cache->{ $key } = self::factory(
+                            $this->api->properties->$_key->value );
+                    //printf( "\n%s\t%s\t%s\n", $key, $_key, $this->api->properties->$_key->value );
+                    return $this->_cache->{ $key };
+                }
+
+                // We couldn't find what we were looking for, exit.
+                return null;
+
                 break;
             default:
-                throw new \DomainException( 'Invalid property.' );
+                if ( !is_null( $this->api->properties->{ $key } ) )
+                    return $this->api->properties->{ $key };
+                break;
         }
 
         return null;
@@ -240,7 +274,11 @@ class Taxon extends API\Object implements API\ObjectInterface
     public static function factory( $id ) {
         $taxon = new Taxon;
         $taxon->api->parameters->id->value = $id;
-        $taxon->api->load();
+        try {
+            $taxon->api->load();
+        } catch ( \RuntimeException $_ ) {
+            return null;
+        }
         return $taxon;
     }
 

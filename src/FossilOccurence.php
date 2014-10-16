@@ -101,13 +101,6 @@ class FossilOccurence extends API\Object implements API\ObjectInterface
         }
     }
 
-    public function load() {
-        foreach ( $this->blocks() as $block ) {
-            $this->api->parameters->show->value = $block;
-            $this->api->load();
-        }
-        return $this;
-    }
 
     /**
      * Initialize default Parameters for a FossilOccurence.
@@ -242,23 +235,6 @@ class FossilOccurence extends API\Object implements API\ObjectInterface
         }
 
         return true;
-    }
-
-    /**
-     * Return the `show` blocks for all parameters.
-     *
-     * @since   0.0.1
-     * @access  public
-     */
-    public function blocks() {
-        $blocks = array();
-        foreach ( $this->api->properties as $property ) {
-            foreach ( $property->block as $blk ) {
-                $blocks[] = $blk;
-            }
-        }
-
-        return array_unique( $blocks );
     }
 
     /**
