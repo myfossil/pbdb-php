@@ -2,7 +2,7 @@
     "name": "myfossil/pbdb",
     "description": "PHP client for the Paleobiology Database API",
     "license": "BSD",
-    "keywords": ["pbdb", "paleobiodb", "paleobiology", "taxonomy"],
+    "keywords": ["pbdb", "paleobiodb", "paleobiology", "taxonomy", "pbdbhttpapiphp"],
     "authors": [
         {
             "name": "Brandon Wood",
@@ -14,7 +14,7 @@
         "guzzlehttp/guzzle": "~4"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.3.3",
+        "phpunit/phpunit": "4.3.2",
         "phpdocumentor/phpdocumentor": "2.*"
     },
     "autoload": {
