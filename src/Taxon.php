@@ -46,13 +46,6 @@ class Taxon extends API\Object implements API\ObjectInterface
      * @access  public
      */
     public function __get( $key ) {
-        if ( !in_array( $key, array( 'species', 'genius', 'family', 'order',
-                        'class', 'phylum', 'kingdom' ) ) ) {
-            $p = parent::__get( $key );
-            if ( !is_null( $p ) )
-                return $p;
-        }
-
         switch ( $key ) {
             case 'oid':
                 return $this->api->properties->taxon_no->value;
@@ -112,6 +105,10 @@ class Taxon extends API\Object implements API\ObjectInterface
 
                 break;
             default:
+                $p = parent::__get( $key );
+                if ( !is_null( $p ) )
+                    return $p;
+
                 if ( !is_null( $this->api->properties->{ $key } ) )
                     return $this->api->properties->{ $key };
                 break;

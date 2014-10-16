@@ -71,4 +71,7 @@ class Object
         return null;
     }
 
+    public function load() {
+        return $this->api->load();
+    }
 }
