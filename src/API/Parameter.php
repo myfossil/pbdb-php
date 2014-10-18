@@ -128,7 +128,7 @@ class Parameter
         if ( $validate && !$this->valid() )
             return null;
 
-        if ( !isset( $this->value ) || empty( $this->value ) )
+        if ( !$this->value )
             return null;
 
         switch ( gettype( $this->value ) ) {
@@ -146,8 +146,9 @@ class Parameter
                 return null;
                 break;
         }
-
-        return sprintf( $this->tpl, $this->name, $_rendered_value );
+    
+        $render = sprintf( $this->tpl, $this->name, $_rendered_value );
+        return $render ? $render : null;
     }
 
     /**

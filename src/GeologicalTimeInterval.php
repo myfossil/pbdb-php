@@ -20,14 +20,6 @@ use myFOSSIL\PBDB\API;
  */
 class GeologicalTimeInterval extends API\Object implements API\ObjectInterface
 {
-    /**
-     * PBDB API endpoint for Taxa.
-     *
-     * @since   0.0.1
-     * @access  protected
-     * @var     string  $endpoint   PBDB API endpoint for GeologicalTimeIntervals.
-     */
-    protected $endpoint = 'intervals';
 
     /**
      * Define the core functionality of the PBDB Client for GeologicalTimeInterval
@@ -37,6 +29,7 @@ class GeologicalTimeInterval extends API\Object implements API\ObjectInterface
      */
     public function __construct() {
         parent::__construct();
+        $this->endpoint = 'intervals';
         $this->init();
     }
 
@@ -47,39 +40,43 @@ class GeologicalTimeInterval extends API\Object implements API\ObjectInterface
      * @access  public
      */
     public function __get( $key ) {
-        if ( property_exists( $this, $key ) )
-            return $this->$key;
+        $p = parent::__get( $key );
+        if ( !is_null( $p ) ) {
+            return $p;
+        }
 
         switch ( $key ) {
-            case 'oid':
-                return $this->api->interval_no->value;
+            case 'pbdbid':
+                return $this->interval_no;
                 break;
             case 'name':
-                return $this->api->interval_name->value;
+                return $this->interval_name;
                 break;
             case 'abbreviation':
-                return $this->api->abbrev->value;
+                return $this->abbrev;
                 break;
             case 'parent':
-                return self::factory( $this->api->parent_no->value );
+                $this->_cache->{ $key } = self::factory( $this->parent_no );
+                return $this->_cache->{ $key };
                 break;
             case 'color':
-                return $this->api->color->value;
+                return $this->color;
                 break;
             case 'scale':
-                return GeologicalTimeScale::factory( $this->api->scale_no->value );
+                $this->_cache->{ $key } = GeologicalTimeScale::factory( $this->scale_no );
+                return $this->_cache->{ $key };
                 break;
             case 'start':
             case 't0':
-                return $this->api->early_age->value;
+                return $this->early_age;
                 break;
             case 'end':
             case 't1':
             case 'tf':
-                return $this->api->late_age->value;
+                return $this->late_age;
                 break;
             default:
-                throw new \DomainException( 'Invalid property.' );
+                throw new \DomainException( sprintf( 'Invalid property %s', $key ) );
         }
 
         return null;
@@ -95,17 +92,17 @@ class GeologicalTimeInterval extends API\Object implements API\ObjectInterface
      * @see     \myFOSSIL\PBDB\Parameter
      * @see     \myFOSSIL\PBDB\ParameterSet
      */
-    private function apiInitParameters() {
+    protected function pbdbInitParameters() {
+        parent::pbdbInitParameters();
 
         // {{{ List of Parameters for a GeologicalTimeInterval
         $parameters = array( 
                 array( 'id', null, false ),
-                array( 'show', null, false ),
             );
         // }}}
 
         foreach ( $parameters as $pargs ) {
-            $this->api->addParameter( 
+            $this->addParameter( 
                     call_user_func_array( 'myfossil\PBDB\API\Parameter::factory', $pargs )
                 );
         }
@@ -123,7 +120,8 @@ class GeologicalTimeInterval extends API\Object implements API\ObjectInterface
      * @see     \myFOSSIL\PBDB\Property
      * @see     \myFOSSIL\PBDB\PropertySet
      */
-    private function apiInitProperties() {
+    protected function pbdbInitProperties() {
+        parent::pbdbInitProperties();
 
         // {{{ List of Properties for a GeologicalTimeInterval
         /*
@@ -133,39 +131,27 @@ class GeologicalTimeInterval extends API\Object implements API\ObjectInterface
          * PBDB vocab, compacted vocab, parent block (show block)
          */ 
         $properties = array(
-                array('interval_no', 'oid', 'basic'), 
-                array('record_type', 'typ', 'basic'), 
-                array('scale_no', 'sca', 'basic'), 
-                array('level', 'lvl', 'basic'), 
-                array('interval_name', 'nam', 'basic'), 
-                array('abbrev', 'abr', 'basic'), 
-                array('parent_no', 'pid', 'basic'), 
-                array('color', 'col', 'basic'), 
-                array('late_age', 'lag', 'basic'), 
-                array('early_age', 'eag', 'basic'), 
-                array('reference_no', 'rid', 'basic'), 
+                array('interval_no', 'oid', null), 
+                array('record_type', 'typ', null), 
+                array('scale_no', 'sca', null), 
+                array('level', 'lvl', null), 
+                array('interval_name', 'nam', null), 
+                array('abbrev', 'abr', null), 
+                array('parent_no', 'pid', null), 
+                array('color', 'col', null), 
+                array('late_age', 'lag', null), 
+                array('early_age', 'eag', null), 
+                array('reference_no', 'rid', null), 
             );
         // }}}
 
         foreach ( $properties as $pargs ) {
-            $this->api->addProperty( 
+            $this->addProperty( 
                     call_user_func_array( 'myFOSSIL\PBDB\API\Property::factory', $pargs )
                 );
         }
 
         return true;
-    }
-
-    /**
-     * Initialize default Parameters and Properties.
-     * 
-     * @since   0.0.1
-     * @access  private
-     * @return  bool    Returns true upon success, false upon failure.
-     */
-    private function init() {
-        $this->api->endpoint = $this->endpoint;
-        return $this->apiInitParameters() && $this->apiInitProperties();
     }
 
     /**
@@ -177,8 +163,7 @@ class GeologicalTimeInterval extends API\Object implements API\ObjectInterface
      */
     public static function factory( $id ) {
         $time_interval = new GeologicalTimeInterval;
-        $time_interval->api->parameters->id->value = $id;
-        $time_interval->api->load();
+        $time_interval->parameters->id = $id;
         return $time_interval;
     }
 

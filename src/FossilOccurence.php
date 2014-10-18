@@ -21,15 +21,6 @@ use myFOSSIL\PBDB\API;
 class FossilOccurence extends API\Object implements API\ObjectInterface
 {
     /**
-     * PBDB API url for Taxa.
-     *
-     * @since   0.0.1
-     * @access  protected
-     * @var     string      $endpoint   API endpoint in the PBDB.
-     */
-    protected $endpoint = 'occs';
-
-    /**
      * Define the core functionality of the PBDB Client for FossilOccurence
      *
      * @since   0.0.1
@@ -37,6 +28,7 @@ class FossilOccurence extends API\Object implements API\ObjectInterface
      */
     public function __construct() {
         parent::__construct();
+        $this->endpoint = 'occs';
         $this->init();
     }
 
@@ -47,18 +39,23 @@ class FossilOccurence extends API\Object implements API\ObjectInterface
      * @access  public
      */
     public function __get( $key ) {
-        if ( property_exists( $this, $key ) )
-            return $this->$key;
+        $p = parent::__get( $key );
+        if ( !in_array( $key, array( 'taxon', 'genus', 'kingdom', 'phylum',
+                        'class', 'order', 'family' ) ) ) {
+            if ( !is_null( $p ) ) {
+                return $p;
+            }
+        }
 
         switch ( $key ) {
-            case 'oid':
-                return $this->api->properties->occurence_no->value;
+            case 'pbdbid':
+                return $this->properties->occurence_no;
                 break;
             case 'reidentification':
-                return self::factory( $this->api->properties->reid_no->value );
+                return self::factory( $this->properties->reid_no );
                 break;
             case 'species':
-                return $this->api->properties->species_name->value;
+                return $this->properties->species_name;
                 break;
             case 'taxon':
             case 'genus':
@@ -73,7 +70,7 @@ class FossilOccurence extends API\Object implements API\ObjectInterface
                 $_key = !isset( $_key ) ? 'order_no' : $_key;
             case 'family':
                 $_key = !isset( $_key ) ? 'family_no' : $_key;
-                return Taxon::factory( $this->api->properties->$_key->value );
+                return Taxon::factory( $this->properties->$_key );
                 break;
             default:
                 throw new \DomainException( 'Invalid property ' . $key );
@@ -83,44 +80,25 @@ class FossilOccurence extends API\Object implements API\ObjectInterface
     }
 
     /**
-     * Custom setter map to proxy between the API values.
-     *
-     * @since   0.0.1
-     * @access  public
-     */
-    public function __set( $key, $value ) {
-        if ( property_exists( $this, $key ) )
-            return $this->$key = $value;
-
-        switch ( $key ) {
-            case 'oid':
-                $this->api->parameters->id->value = $value;
-                break;
-            default:
-                throw new \DomainException( 'Invalid property ' . $key );
-        }
-    }
-
-
-    /**
      * Initialize default Parameters for a FossilOccurence.
      * 
      * @since   0.0.1
      * @access  private
      * @see     {@link http://www.paleobiodb.org/data1.1/taxa/single_doc.html}
      */
-    private function apiInitParameters() {
+    protected function pbdbInitParameters() {
+        parent::pbdbInitParameters();
 
         // {{{ List of Parameters for a FossilOccurence
         $parameters = array( 
                 array( 'id', null, true ),
-                array( 'show', null, false ),
+                array( 'show', null, true ),
                 array( 'order', null, false )
             );
         // }}}
 
         foreach ( $parameters as $pargs ) {
-            $this->api->addParameter( 
+            $this->addParameter( 
                     call_user_func_array( 'myFOSSIL\PBDB\API\Parameter::factory', $pargs )
                 );
         }
@@ -136,7 +114,8 @@ class FossilOccurence extends API\Object implements API\ObjectInterface
      * @see     {@link http://www.paleobiodb.org/data1.1/taxa/single_doc.html}
      * @see     \myFOSSIL\PBDB\Property
      */
-    private function apiInitProperties() {
+    protected function pbdbInitProperties() {
+        parent::pbdbInitProperties();
 
         // {{{ List of Properties for a FossilOccurence
         /*
@@ -229,7 +208,7 @@ class FossilOccurence extends API\Object implements API\ObjectInterface
         // }}}
 
         foreach ( $properties as $pargs ) {
-            $this->api->addProperty( 
+            $this->addProperty( 
                     call_user_func_array( 'myFOSSIL\PBDB\API\Property::factory', $pargs )
                 );
         }
@@ -237,17 +216,6 @@ class FossilOccurence extends API\Object implements API\ObjectInterface
         return true;
     }
 
-    /**
-     * Initialize default Parameters and Properties.
-     * 
-     * @since   0.0.1
-     * @access  private
-     * @return  bool            Returns true upon success, false upon failure.
-     */
-    private function init() {
-        $this->api->endpoint = $this->endpoint;
-        return $this->apiInitParameters() && $this->apiInitProperties();
-    }
 
     /**
      * Retrieve FossilOccurence by a given identifier in PBDB.
@@ -259,8 +227,7 @@ class FossilOccurence extends API\Object implements API\ObjectInterface
      */
     public static function factory( $id ) {
         $fossil = new FossilOccurence;
-        $fossil->api->parameters->id->value = $id;
-        $fossil->api->load();
+        $fossil->parameters->id = $id;
         return $fossil;
     }
 

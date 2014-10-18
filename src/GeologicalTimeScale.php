@@ -21,14 +21,6 @@ use myFOSSIL\PBDB\API;
  */
 class GeologicalTimeScale extends API\Object implements API\ObjectInterface
 {
-    /**
-     * PBDB API endpoint for geological time scales.
-     *
-     * @since   0.0.1
-     * @access  protected
-     * @var     string      $endpoint   PBDB API endpoint for GeologicalTimeScales.
-     */
-    protected $endpoint = 'scales';
 
     /**
      * Define the core functionality of the PBDB Client for
@@ -39,6 +31,7 @@ class GeologicalTimeScale extends API\Object implements API\ObjectInterface
      */
     public function __construct() {
         parent::__construct();
+        $this->endpoint = 'scales';
         $this->init();
     }
 
@@ -49,30 +42,32 @@ class GeologicalTimeScale extends API\Object implements API\ObjectInterface
      * @access  public
      */
     public function __get( $key ) {
-        if ( property_exists( $this, $key ) )
-            return $this->$key;
+        $p = parent::__get( $key );
+        if ( !is_null( $p ) ) {
+            return $p;
+        }
 
         switch ( $key ) {
             case 'oid':
-                return $this->api->scale_no->value;
+                return $this->scale_no->value;
                 break;
             case 'name':
-                return $this->api->scale_name->value;
+                return $this->scale_name->value;
                 break;
             case 'level':
-                return $this->api->level_name->value;
+                return $this->level_name->value;
                 break;
             case 'start':
             case 't0':
-                return $this->api->early_age->value;
+                return $this->early_age->value;
                 break;
             case 'end':
             case 't1':
             case 'tf':
-                return $this->api->late_age->value;
+                return $this->late_age->value;
                 break;
             default:
-                throw new \DomainException( 'Invalid property.' );
+                throw new \DomainException( sprintf( 'Invalid property %s', $key ) );
         }
 
         return null;
@@ -89,17 +84,17 @@ class GeologicalTimeScale extends API\Object implements API\ObjectInterface
      * @see     \myFOSSIL\PBDB\Parameter
      * @see     \myFOSSIL\PBDB\ParameterSet
      */
-    private function apiInitParameters() {
+    protected function pbdbInitParameters() {
+        parent::pbdbInitParameters();
 
         // {{{ List of Parameters for a GeologicalTimeScale
         $parameters = array( 
                 array( 'id', null, false ),
-                array( 'show', null, false ),
             );
         // }}}
 
         foreach ( $parameters as $pargs ) {
-            $this->api->addParameter( 
+            $this->addParameter( 
                     call_user_func_array( 'myFOSSIL\PBDB\API\Parameter::factory', $pargs )
                 );
         }
@@ -117,7 +112,8 @@ class GeologicalTimeScale extends API\Object implements API\ObjectInterface
      * @see     \myFOSSIL\PBDB\Property
      * @see     \myFOSSIL\PBDB\PropertySet
      */
-    private function apiInitProperties() {
+    protected function pbdbInitProperties() {
+        parent::pbdbInitProperties();
 
         // {{{ List of Properties for a GeologicalTimeScale
         /*
@@ -127,38 +123,26 @@ class GeologicalTimeScale extends API\Object implements API\ObjectInterface
          * PBDB vocab, compacted vocab, parent block (show block)
          */ 
         $properties = array(
-                array('scale_no', 'oid', 'basic'), 
-                array('record_type', 'typ', 'basic'), 
-                array('scale_name', 'nam', 'basic'), 
-                array('num_levels', 'nlv', 'basic'), 
-                array('level_list', 'lvs', 'basic'), 
-                array('level', 'lvl', 'basic'), 
-                array('level_name', 'nam', 'basic'), 
-                array('early_age', 'eag', 'basic'), 
-                array('late_age', 'lag', 'basic'), 
-                array('reference_no', 'rid', 'basic'), 
+                array('scale_no', 'oid', null), 
+                array('record_type', 'typ', null), 
+                array('scale_name', 'nam', null), 
+                array('num_levels', 'nlv', null), 
+                array('level_list', 'lvs', null), 
+                array('level', 'lvl', null), 
+                array('level_name', 'nam', null), 
+                array('early_age', 'eag', null), 
+                array('late_age', 'lag', null), 
+                array('reference_no', 'rid', null), 
             );
         // }}}
 
         foreach ( $properties as $pargs ) {
-            $this->api->addProperty( 
+            $this->addProperty( 
                     call_user_func_array( 'myFOSSIL\PBDB\API\Property::factory', $pargs )
                 );
         }
 
         return true;
-    }
-
-    /**
-     * Initialize default Parameters and Properties.
-     * 
-     * @since   0.0.1
-     * @access  private
-     * @return  bool        Returns true upon success, false upon failure.
-     */
-    private function init() {
-        $this->api->endpoint = $this->endpoint;
-        return $this->apiInitParameters() && $this->apiInitProperties();
     }
 
     /**
@@ -171,8 +155,7 @@ class GeologicalTimeScale extends API\Object implements API\ObjectInterface
      */
     public static function factory( $id ) {
         $time_scale = new GeologicalTimeScale;
-        $time_scale->api->parameters->id->value = $id;
-        $time_scale->api->load();
+        $time_scale->parameters->id = $id;
         return $time_scale;
     }
 
