@@ -27,15 +27,21 @@ class PropertySetTest extends PHPUnit_Framework_Testcase {
     public function testPropertyGet() {
         // Setup.
         $props = new API\PropertySet();
-        $props->attach( new API\Property( 'test1', 'tst1', 'test' ) );
-        $props->attach( new API\Property( 'test2', 'tst2', 'test' ) );
-        $props->attach( new API\Property( 'test3', 'tst3', 'test' ) );
+        $props->attach( new API\Property( 'test1', 'tst1', 'test', 'testvalue1' ) );
+        $props->attach( new API\Property( 'test2', 'tst2', 'test', 'testvalue2' ) );
+        $props->attach( new API\Property( 'test3', 'tst3', 'test', 'testvalue3' ) );
 
-        $this->assertEquals( 'tst1', $props->test1->compacted );
-        $this->assertEquals( 'tst2', $props->test2->compacted );
-        $this->assertContains( 'test', $props->test3->block );
-
+        $this->assertEquals( $props->test1, 'testvalue1' );
+        $this->assertEquals( $props->test2, 'testvalue2' );
+        $this->assertEquals( $props->test3, 'testvalue3' );
         $this->assertNull( $props->noexist );
+
+        $props->test1 = 'updatedtestvalue1';
+        $props->test2 = 'updatedtestvalue2';
+        $props->test3 = 'updatedtestvalue3';
+        $this->assertEquals( $props->test1, 'updatedtestvalue1' );
+        $this->assertEquals( $props->test2, 'updatedtestvalue2' );
+        $this->assertEquals( $props->test3, 'updatedtestvalue3' );
     }
 
 }

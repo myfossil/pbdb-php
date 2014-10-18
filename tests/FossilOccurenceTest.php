@@ -6,13 +6,18 @@ class FossilOccurenceTest extends PHPUnit_Framework_Testcase {
 
     public function testInstantiation() {
         $fossil = new FossilOccurence;
-        $this->assertGreaterThanOrEqual( 60, $fossil->api->properties->count() );
+        $this->assertGreaterThanOrEqual( 60, $fossil->properties->count() );
+    }
+
+    public function testBlocks() {
+        $fossil = new FossilOccurence;
+        $show_blocks = $fossil->blocks();
+        $this->assertContains( 'coords', $show_blocks );
     }
 
     public function testRetrieveData() {
         $fossil = new FossilOccurence;
-        $fossil->api->parameters->id->value = 1001;
-        $fossil->api->load();
+        $fossil->pbdbid = 1001;
 
         $test_values = array(
                 'occurrence_no' => 1001,
@@ -21,7 +26,7 @@ class FossilOccurenceTest extends PHPUnit_Framework_Testcase {
             );
 
         foreach ( $test_values as $k => $v ) {
-            $this->assertEquals( $v, $fossil->api->properties->$k->value );
+            $this->assertEquals( $v, $fossil->{ $k } );
         }
     }
 

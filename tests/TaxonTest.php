@@ -6,13 +6,12 @@ class TaxonTest extends PHPUnit_Framework_Testcase {
 
     public function testInstantiation() {
         $taxon = new Taxon();
-        $this->assertGreaterThanOrEqual( 60, $taxon->api->properties->count() );
+        $this->assertGreaterThanOrEqual( 60, $taxon->properties->count() );
     }
 
     public function testRetrieveData() {
         $taxon = new Taxon();
-        $taxon->api->parameters->id->value = 69296;
-        $taxon->api->load();
+        $taxon->pbdbid = 69296;
 
         $test_values = array(
                 'taxon_no'    => 69296,
@@ -26,14 +25,13 @@ class TaxonTest extends PHPUnit_Framework_Testcase {
             );
 
         foreach ( $test_values as $k => $v ) {
-            $this->assertEquals( $v, $taxon->api->properties->$k->value );
+            $this->assertEquals( $v, $taxon->$k );
         }
     }
 
     public function testParentRetrieve() {
         $taxon = new Taxon();
-        $taxon->api->parameters->id->value = 69296;
-        $taxon->api->load();
+        $taxon->pbdbid = 69296;
 
         $test_values = array(
                 'Dascilloidea',
@@ -52,8 +50,9 @@ class TaxonTest extends PHPUnit_Framework_Testcase {
             );
 
         foreach ( $test_values as $taxon_name ) {
-            $taxon = $taxon->parent();
-            $this->assertEquals( $taxon_name, $taxon->api->properties->taxon_name->value );
+            $taxon = $taxon->parent;
+            $this->assertEquals( $taxon_name, $taxon->taxon_name );
+            $this->assertEquals( $taxon_name, $taxon->name );
         }
     }
 
@@ -80,7 +79,7 @@ class TaxonTest extends PHPUnit_Framework_Testcase {
 
         foreach ( $data as $lvl => $taxon_name ) {
             $expected = $taxon_name;
-            $observed = is_null( $taxon->{ $lvl } ) ? -1 : $taxon->{ $lvl }->name;
+            $observed = $taxon->{ $lvl }->name;
             $this->assertEquals( $expected, $observed );
         }
 

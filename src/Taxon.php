@@ -20,13 +20,6 @@ use myFOSSIL\PBDB\API;
  */
 class Taxon extends API\Object implements API\ObjectInterface
 {
-    /**
-     * PBDB API endpoint for Taxa.
-     *
-     * @since   0.0.1
-     * @access  protected
-     */
-    protected $endpoint = 'taxa';
 
     /**
      * Define the core functionality of the PBDB PBDB for Taxon
@@ -36,6 +29,7 @@ class Taxon extends API\Object implements API\ObjectInterface
      */
     public function __construct() {
         parent::__construct();
+        $this->endpoint = 'taxa';
         $this->init();
     }
 
@@ -46,34 +40,41 @@ class Taxon extends API\Object implements API\ObjectInterface
      * @access  public
      */
     public function __get( $key ) {
+        $p = parent::__get( $key );
+        if ( !in_array( $key, array( 'taxon', 'genus', 'kingdom', 'phylum',
+                        'class', 'order', 'family' ) ) ) {
+            if ( !is_null( $p ) ) {
+                return $p;
+            }
+        }
+
         switch ( $key ) {
             case 'oid':
-                return $this->api->properties->taxon_no->value;
+                return $this->taxon_no;
                 break;
             case 'name':
-                return $this->api->properties->taxon_name->value;
+                return $this->taxon_name;
                 break;
             case 'common_name':
-                return $this->api->properties->common_name->value;
+                return $this->common_name;
                 break;
             case 'parent':
-                return self::factory( $this->api->properties->parent_no->value );
+                return self::factory( $this->parent_no );
                 break;
             case 'extant':
-                return (bool) $this->api->properties->is_extant->value;
+                return (bool) $this->is_extant;
                 break;
             case 'species':
                 // If this taxon is not the species, then we cannot know which
                 // species we want to get.
-                if ( $this->api->properties->rank->value == 'species' )
+                if ( $this->rank == 'species' )
                     return $this;
                 return null;
                 break;
             case 'genus':
-                if ( $this->api->properties->rank->value == 'species' )
-                    $_key = !isset( $_key ) ? 'parent_no' : $_key;
-                else
-                    return null;
+                if ( $this->rank == 'species' )
+                    return $this->parent;
+                return $this;
             case 'order':
                 $_key = !isset( $_key ) ? 'order_no' : $_key;
             case 'kingdom':
@@ -93,10 +94,11 @@ class Taxon extends API\Object implements API\ObjectInterface
                  * returned a cached object if we had one to offer, so we're
                  * making a new one and returning it.
                  */
-                if ( !is_null( $this->api->properties->$_key ) ) {
-                    $this->_cache->{ $key } = self::factory(
-                            $this->api->properties->$_key->value );
-                    //printf( "\n%s\t%s\t%s\n", $key, $_key, $this->api->properties->$_key->value );
+                if ( !property_exists( $this->_cache, $key ) ) {
+                    $this->_cache->{ $key } = self::factory( $this->{ $_key }
+                            );
+                    return $this->_cache->{ $key };
+                } else {
                     return $this->_cache->{ $key };
                 }
 
@@ -105,12 +107,7 @@ class Taxon extends API\Object implements API\ObjectInterface
 
                 break;
             default:
-                $p = parent::__get( $key );
-                if ( !is_null( $p ) )
-                    return $p;
-
-                if ( !is_null( $this->api->properties->{ $key } ) )
-                    return $this->api->properties->{ $key };
+                throw new \DomainException( 'Invalid property ' . $key );
                 break;
         }
 
@@ -124,7 +121,8 @@ class Taxon extends API\Object implements API\ObjectInterface
      * @access  private
      * @see     {@link http://www.paleobiodb.org/data1.1/taxa/single_doc.html}
      */
-    private function apiInitParameters() {
+    protected function pbdbInitParameters() {
+        parent::pbdbInitParameters();
 
         // {{{ List of Parameters for a Taxon
         $parameters = array( 
@@ -135,7 +133,7 @@ class Taxon extends API\Object implements API\ObjectInterface
         // }}}
 
         foreach ( $parameters as $pargs ) {
-            $this->api->addParameter( 
+            $this->addParameter( 
                     call_user_func_array( 'myFOSSIL\PBDB\API\Parameter::factory', $pargs )
                 );
         }
@@ -151,7 +149,8 @@ class Taxon extends API\Object implements API\ObjectInterface
      * @see     {@link http://www.paleobiodb.org/data1.1/taxa/single_doc.html}
      * @see     \myFOSSIL\PBDB\Property
      */
-    private function apiInitProperties() {
+    protected function pbdbInitProperties() {
+        parent::pbdbInitProperties();
 
         // {{{ List of Properties for a Taxon
         /*
@@ -229,36 +228,12 @@ class Taxon extends API\Object implements API\ObjectInterface
         // }}}
 
         foreach ( $properties as $pargs ) {
-            $this->api->addProperty( 
+            $this->addProperty( 
                     call_user_func_array( 'myFOSSIL\PBDB\API\Property::factory', $pargs )
                 );
         }
 
         return true;
-    }
-
-    /**
-     * Initialize default Parameters and Properties.
-     * 
-     * @since   0.0.1
-     * @access  private
-     */
-    private function init() {
-        $this->api->endpoint = $this->endpoint;
-        return $this->apiInitParameters() && $this->apiInitProperties();
-    }
-
-    /**
-     * Return the parent Taxon, if available.
-     *
-     * @since   0.0.1
-     * @access  public
-     * @return  Taxon   Parent Taxon.
-     */
-    public function parent() {
-        if ( empty( $this->api->properties->parent_no ) )
-            $this->api->load();
-        return self::factory( $this->api->properties->parent_no->value );
     }
 
     /**
@@ -270,12 +245,7 @@ class Taxon extends API\Object implements API\ObjectInterface
      */
     public static function factory( $id ) {
         $taxon = new Taxon;
-        $taxon->api->parameters->id->value = $id;
-        try {
-            $taxon->api->load();
-        } catch ( \RuntimeException $_ ) {
-            return null;
-        }
+        $taxon->pbdbid = $id;
         return $taxon;
     }
 

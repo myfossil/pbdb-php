@@ -39,31 +39,12 @@ class ParameterSet extends AbstractSet
      * @return  string  URL query string
      */
     public function render() {
-        // Return null if we have no Parameters.
-        if ( !$this->count() ) return null;
-
         $rend = array();
-        foreach ( self::filter( $this ) as $param ) 
+        foreach ( $this as $param ) 
             $rend[] = $param->render();
 
-        return implode( '&', $rend );
-    }
-
-    /**
-     * Return filtered ParameterSet.
-     *
-     * @since   0.0.1
-     * @access  public
-     * @param   ParameterSet    $params ParameterSet to filter.
-     * @return  ParameterSet
-     */
-    public static function filter( $params ) {
-        $filtered = new ParameterSet;
-        foreach ( $params as $p )
-            if ( !empty( $p->value ) )
-                $filtered->attach( $p );
-
-        return $filtered;
+        $result = implode( '&', array_filter( $rend ) );
+        return $result ? $result : null;
     }
 
 }

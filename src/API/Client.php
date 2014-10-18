@@ -111,7 +111,7 @@ class Client
      * @since   0.0.1
      * @access  private
      */
-    private function pbdbInitParameters() {
+    protected function pbdbInitParameters() {
         // PBDB API default vocabulary.
         $this->parameters->attach( new Parameter( 'vocab', 'pbdb' ) );
 
@@ -152,7 +152,7 @@ class Client
      * @since   0.0.1
      * @access  private
      */
-    private function pbdbInitProperties() {
+    protected function pbdbInitProperties() {
         return true;
     }
 
@@ -164,7 +164,7 @@ class Client
      * @see     self::pbdbInitParameters
      * @see     self::pbdbInitProperties
      */
-    private function init() {
+    protected function init() {
         return $this->pbdbInitParameters() && $this->pbdbInitProperties();
     }
 
@@ -191,14 +191,22 @@ class Client
      * @throws  RuntimeException                If attempted to be loaded without an identifier.
      * @return  mixed                           Class instantiation with associated properties.
      */
-    public function load( $type='single', $format='json' ) {
-        if ( !$this->parameters->id->value && $type == 'single' )
+    public function load( $block=null, $type='single', $format='json' ) {
+        if ( !$this->parameters->id && $type == 'single' ) {
             return false;
+        }
 
-        foreach ( $this->blocks() as $block ) {
-            if ( $block !== 'basic' ) 
-                $this->parameters->show->value = $block;
-            $this->properties->load( $this->request( $this->url() ) );
+        if ( $block ) {
+            $this->parameters->show = $block;
+            $url = $this->url( $type, $format );
+            //printf( "\nLoading from %s\n", $url );
+            $this->properties->load( $this->request( $url ) );
+        } else {
+            foreach ( $this->blocks() as $block ) {
+                $this->parameters->show = $block;
+                $this->properties->load( $this->request( $this->url( $type,
+                                $format ) ) );
+            }
         }
 
         return $this;

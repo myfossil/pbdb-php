@@ -40,18 +40,29 @@ class PropertySet extends AbstractSet
      * @return  PropertySet 
      */
     public function load( $resp ) {
+        if ( !array_key_exists( 'records', $resp ) )
+            return;
+
         foreach ( $resp['records'] as $record ) {
             foreach ( $record as $k => $v ) {
+                if ( is_array( $v ) && count( $v ) == 1 )
+                    $v = $v[0];
+
                 try {
-                    $this->$k->value = $v;
+                    $this->{ $k } = $v;
                 } catch ( \RuntimeException $_ ) {
                     $this->attach( new Property( $k ) );
-                    $this->$k->value = $v;
+                    $this->{ $k } = $v;
                 }
             }
         }
 
         return $this;
+    }
+
+    public function block( $k ) {
+        if ( $k = $this->get_as_object( $k ) )
+            return $k->block;
     }
 
 }

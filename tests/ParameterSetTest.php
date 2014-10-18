@@ -50,11 +50,24 @@ class ParameterSetTest extends PHPUnit_Framework_Testcase {
         $params->attach( new API\Parameter( 'show', 'attr' ) );
         $params->attach( new API\Parameter( 'empty', null ) );
 
-        $this->assertEquals( 69296 , $params->id->value );
-        $this->assertEquals( 'attr', $params->show->value );
-        $this->assertEquals( null  , $params->empty->value );
+        $this->assertEquals( 69296 , $params->id );
+        $this->assertEquals( 'attr', $params->show );
+        $this->assertEquals( null  , $params->empty );
 
         $this->assertNull( $params->noexist );
     }
 
+    public function testParameterSetSetter() {
+        // Setup.
+        $params = new API\ParameterSet();
+        $params->attach( new API\Parameter( 'id', 69296, false ) );
+        $params->attach( new API\Parameter( 'show', 'attr' ) );
+        $params->attach( new API\Parameter( 'empty', null ) );
+
+        $params->id = 1337;
+        $this->assertEquals( $params->id, 1337 );
+
+        $params->show = 'new';
+        $this->assertEquals( $params->show, 'new' );
+    }
 }
