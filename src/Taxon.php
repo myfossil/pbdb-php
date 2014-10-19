@@ -41,8 +41,8 @@ class Taxon extends API\Object implements API\ObjectInterface
      */
     public function __get( $key ) {
         $p = parent::__get( $key );
-        if ( !in_array( $key, array( 'taxon', 'genus', 'kingdom', 'phylum',
-                        'class', 'order', 'family' ) ) ) {
+        if ( !in_array( $key, array( 'taxon', 'species', 'genus', 'kingdom',
+                        'phylum', 'class', 'order', 'family' ) ) ) {
             if ( !is_null( $p ) ) {
                 return $p;
             }
@@ -74,7 +74,10 @@ class Taxon extends API\Object implements API\ObjectInterface
             case 'genus':
                 if ( $this->rank == 'species' )
                     return $this->parent;
-                return $this;
+                elseif ( $this->rank == 'genus' )
+                    return $this;
+                else
+                    return null;
             case 'order':
                 $_key = !isset( $_key ) ? 'order_no' : $_key;
             case 'kingdom':
@@ -94,20 +97,14 @@ class Taxon extends API\Object implements API\ObjectInterface
                  * returned a cached object if we had one to offer, so we're
                  * making a new one and returning it.
                  */
-                if ( !property_exists( $this->_cache, $key ) ) {
-                    $this->_cache->{ $key } = self::factory( $this->{ $_key }
-                            );
-                    return $this->_cache->{ $key };
-                } else {
-                    return $this->_cache->{ $key };
-                }
+                if ( !$this->{ $_key } ) return null;
 
-                // We couldn't find what we were looking for, exit.
-                return null;
+                if ( !property_exists( $this->_cache, $key ) )
+                    $this->_cache->{ $key } = self::factory( $this->{ $_key } );
 
-                break;
-            default:
-                throw new \DomainException( 'Invalid property ' . $key );
+                if ( property_exists( $this->_cache, $key ) )
+                    return $this->_cache->{ $key };
+
                 break;
         }
 

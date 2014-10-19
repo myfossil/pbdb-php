@@ -61,8 +61,6 @@ class TaxonTest extends PHPUnit_Framework_Testcase {
         $this->assertEquals( $taxon->name, "Pinocetus polonicus" );
     }
 
-    /**
-     */
     public function testHierarchy() {
         // from {@link http://paleobiodb.org/data1.1/taxa/single.json?id=53140}
         $data = array(
@@ -84,4 +82,5 @@ class TaxonTest extends PHPUnit_Framework_Testcase {
         }
 
     }
+
 }

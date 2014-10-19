@@ -40,8 +40,8 @@ class FossilOccurence extends API\Object implements API\ObjectInterface
      */
     public function __get( $key ) {
         $p = parent::__get( $key );
-        if ( !in_array( $key, array( 'taxon', 'genus', 'kingdom', 'phylum',
-                        'class', 'order', 'family' ) ) ) {
+        if ( !in_array( $key, array( 'taxon', 'species', 'genus', 'kingdom',
+                        'phylum', 'class', 'order', 'family' ) ) ) {
             if ( !is_null( $p ) ) {
                 return $p;
             }
@@ -54,26 +54,19 @@ class FossilOccurence extends API\Object implements API\ObjectInterface
             case 'reidentification':
                 return self::factory( $this->properties->reid_no );
                 break;
-            case 'species':
-                return $this->properties->species_name;
-                break;
             case 'taxon':
+                if ( property_exists( $this->_cache, 'taxon' ) )
+                    return $this->_cache->taxon;
+                $this->_cache->taxon = Taxon::factory( $this->taxon_no );
+                return $this->_cache->taxon;
+            case 'species':
             case 'genus':
-                $_key = !isset( $_key ) ? 'taxon_no' : $_key;
             case 'kingdom':
-                $_key = !isset( $_key ) ? 'kingdom_no' : $_key;
             case 'phylum':
-                $_key = !isset( $_key ) ? 'phylum_no' : $_key;
             case 'class':
-                $_key = !isset( $_key ) ? 'class_no' : $_key;
             case 'order':
-                $_key = !isset( $_key ) ? 'order_no' : $_key;
             case 'family':
-                $_key = !isset( $_key ) ? 'family_no' : $_key;
-                return Taxon::factory( $this->properties->$_key );
-                break;
-            default:
-                throw new \DomainException( 'Invalid property ' . $key );
+                return $this->taxon->{ $key };
         }
 
         return null;

@@ -1,0 +1,122 @@
+[
+  {
+    "occurrence_no": 187702,
+    "taxon_rank": "genus",
+    "taxon_name": "Pomatodelphis cf. sp.",
+    "taxon_no": 36819
+  },
+  {
+    "occurrence_no": 289579,
+    "taxon_rank": "genus",
+    "taxon_name": "Squalodon ? sp.",
+    "taxon_no": 36852
+  },
+  {
+    "occurrence_no": 371205,
+    "taxon_rank": "family",
+    "taxon_name": "Delphinidae indet.",
+    "taxon_no": 42953
+  },
+  {
+    "occurrence_no": 395326,
+    "taxon_rank": "family",
+    "taxon_name": "Cetotheriidae indet.",
+    "taxon_no": 42973
+  },
+  {
+    "occurrence_no": 460978,
+    "taxon_rank": "subfamily",
+    "taxon_name": "Physeterinae indet.",
+    "taxon_no": 62911
+  },
+  {
+    "occurrence_no": 460984,
+    "taxon_rank": "family",
+    "taxon_name": "Kentriodontidae indet.",
+    "taxon_no": 42938
+  },
+  {
+    "occurrence_no": 460985,
+    "taxon_rank": "family",
+    "taxon_name": "Physeteridae indet.",
+    "taxon_no": 42967
+  },
+  {
+    "occurrence_no": 460989,
+    "taxon_rank": "suborder",
+    "taxon_name": "Odontoceti indet.",
+    "taxon_no": 42937
+  },
+  {
+    "occurrence_no": 460991,
+    "taxon_rank": "family",
+    "taxon_name": "Ziphiidae indet.",
+    "taxon_no": 42951
+  },
+  {
+    "occurrence_no": 460993,
+    "taxon_rank": "family",
+    "taxon_name": "Pontoporiidae indet.",
+    "taxon_no": 42965
+  },
+  {
+    "occurrence_no": 460994,
+    "taxon_rank": "family",
+    "taxon_name": "Delphinidae indet.",
+    "taxon_no": 42953
+  },
+  {
+    "occurrence_no": 461048,
+    "taxon_rank": "genus",
+    "taxon_name": "Scaldicetus sp.",
+    "taxon_no": 36728
+  },
+  {
+    "occurrence_no": 461074,
+    "taxon_rank": "genus",
+    "taxon_name": "Scaldicetus sp.",
+    "taxon_no": 36900
+  },
+  {
+    "occurrence_no": 462836,
+    "taxon_rank": "family",
+    "taxon_name": "Eurhinodelphinidae indet.",
+    "taxon_no": 53264
+  },
+  {
+    "occurrence_no": 462855,
+    "taxon_rank": "family",
+    "taxon_name": "Delphinidae indet.",
+    "taxon_no": 42953
+  },
+  {
+    "occurrence_no": 463341,
+    "taxon_rank": "order",
+    "taxon_name": "Cetacea indet.",
+    "taxon_no": 36652
+  },
+  {
+    "occurrence_no": 464110,
+    "taxon_rank": "subfamily",
+    "taxon_name": "Pomatodelphininae indet.",
+    "taxon_no": 63630
+  },
+  {
+    "occurrence_no": 464111,
+    "taxon_rank": "subfamily",
+    "taxon_name": "Platanistinae indet.",
+    "taxon_no": 63585
+  },
+  {
+    "occurrence_no": 464112,
+    "taxon_rank": "family",
+    "taxon_name": "Platanistidae indet.",
+    "taxon_no": 42941
+  },
+  {
+    "occurrence_no": 464113,
+    "taxon_rank": "suborder",
+    "taxon_name": "Odontoceti indet.",
+    "taxon_no": 42937
+  }
+]

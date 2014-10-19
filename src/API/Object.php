@@ -53,6 +53,10 @@ class Object extends Client
                 && !is_null( $this->_cache->{ $key } ) )
             return $this->_cache->$key;
 
+        // Special case for the PBDB ID
+        if ( $key == 'pbdbid' )
+            return $this->parameters->id;
+
         // If not a local property, try loading from PBDB
         if ( is_null( $this->properties->{ $key } ) )
             $this->load( $this->properties->block( $key ) );
