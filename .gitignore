@@ -17,3 +17,6 @@ vendor/
 
 ## PHPDoc
 doc/
+
+## PHPTidy
+*.phptidy*

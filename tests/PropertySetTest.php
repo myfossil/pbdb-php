@@ -1,14 +1,29 @@
 <?php
+/**
+ * ./tests/PropertySetTest.php
+ *
+ * @author Brandon Wood <bwood@atmoapps.com>
+ * @package myFOSSIL
+ */
+
 
 use myFOSSIL\PBDB\API;
 
 class PropertySetTest extends PHPUnit_Framework_Testcase {
 
-    public function testInstantiation() {
+    /**
+     *
+     */
+    public function testInstantiation()
+    {
         $this->assertInstanceOf( 'myFOSSIL\PBDB\API\PropertySet', new API\PropertySet );
     }
 
-    public function testPropertyReset() {
+    /**
+     *
+     */
+    public function testPropertyReset()
+    {
         // Setup.
         $props = new API\PropertySet();
         $props->attach( new API\Property( 'test1', 'tst1', 'test' ) );
@@ -24,7 +39,8 @@ class PropertySetTest extends PHPUnit_Framework_Testcase {
     /**
      * Test that we can get Properties by ID.
      */
-    public function testPropertyGet() {
+    public function testPropertyGet()
+    {
         // Setup.
         $props = new API\PropertySet();
         $props->attach( new API\Property( 'test1', 'tst1', 'test', 'testvalue1' ) );

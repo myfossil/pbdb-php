@@ -4,7 +4,10 @@
  *
  * @link       http://atmoapps.com
  * @since      0.0.1
+ * @author Brandon Wood <bwood@atmoapps.com>
+ * @package myFOSSIL
  */
+
 
 namespace myFOSSIL\PBDB\API;
 
@@ -16,13 +19,14 @@ namespace myFOSSIL\PBDB\API;
  * @since      0.0.1
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
-class Parameter 
+class Parameter
 {
+
     /**
      * Name of the Parameter.
      *
      * @since   0.0.1
-     * @access  public 
+     * @access  public
      * @see     {@link http://paleobiodb.org/data1.1/formats}
      * @var     string      $name
      */
@@ -32,7 +36,7 @@ class Parameter
      * Value or argument supplied to PBDB for this parameter.
      *
      * @since   0.0.1
-     * @access  public 
+     * @access  public
      * @see     {@link http://paleobiodb.org/data1.1/formats}
      * @var     mixed   $value
      */
@@ -91,13 +95,14 @@ class Parameter
      *
      * @since   0.0.1
      * @access  public
-     * @param   string  $name                       PaleoBioDatabase name of the Parameter.
-     * @param   string  $description    Optional    Description of the parameter.
-     * @param   string  $value          Optional    Value of the given parameter.
-     * @param   bool    $optional       Optional    Whether or not the parameter is optional to PBDB.
-     * @see     {@link http://paleobiodb.org/data1.1} 
+     * @see     {@link http://paleobiodb.org/data1.1}
+     * @param string  $name        PaleoBioDatabase name of the Parameter.
+     * @param string  $value       (optional) Optional    Value of the given parameter.
+     * @param bool    $optional    (optional) Optional    Whether or not the parameter is optional to PBDB.
+     * @param string  $description (optional) Optional    Description of the parameter.
      */
-    public function __construct($name, $value=null, $optional=true, $description=null) {
+    public function __construct( $name, $value=null, $optional=true, $description=null )
+    {
         $this->name = $name;
         $this->value = $value;
         $this->optional = $optional;
@@ -108,11 +113,13 @@ class Parameter
      * Create a new Parameter object.
      *
      * @since   0.0.1
-     * @param   string  $name                   Name of the parameter.
-     * @param   mixed   $value                  Value of the parameter.
-     * @param   string  $optional   Optional    Whether the Parameter is optional, default true.
+     * @param string  $name     Name of the parameter.
+     * @param mixed   $value    Value of the parameter.
+     * @param string  $optional (optional) Optional    Whether the Parameter is optional, default true.
+     * @return unknown
      */
-    public static function factory( $name, $value, $optional=true ) {
+    public static function factory( $name, $value, $optional=true )
+    {
         return new Parameter( $name, $value, $optional );
     }
 
@@ -121,10 +128,11 @@ class Parameter
      *
      * @since   0.0.1
      * @access  public
-     * @param   bool    $validate           Optional    Whether to validate prior to rendering, default true.
+     * @param bool    $validate (optional) Optional    Whether to validate prior to rendering, default true.
      * @return  string                                  Rendered template string.
      */
-    public function render( $validate=true ) {
+    public function render( $validate=true )
+    {
         if ( $validate && !$this->valid() )
             return null;
 
@@ -132,21 +140,21 @@ class Parameter
             return null;
 
         switch ( gettype( $this->value ) ) {
-            case 'string':
-            case 'integer':
-                $_rendered_value = (string) $this->value;
-                break;
-            case 'array':
-                $_rendered_value = implode( ',', $this->value );
-                break;
-            case 'boolean':
-                $_rendered_value = $this->value ? (string) 1 : (string) 0;
-                break;
-            default:
-                return null;
-                break;
+        case 'string':
+        case 'integer':
+            $_rendered_value = (string) $this->value;
+            break;
+        case 'array':
+            $_rendered_value = implode( ',', $this->value );
+            break;
+        case 'boolean':
+            $_rendered_value = $this->value ? (string) 1 : (string) 0;
+            break;
+        default:
+            return null;
+            break;
         }
-    
+
         $render = sprintf( $this->tpl, $this->name, $_rendered_value );
         return $render ? $render : null;
     }
@@ -155,11 +163,12 @@ class Parameter
      * Returns whether a given name is valid for this Parameter.
      *
      * @since   0.0.1
-     * @access  private 
-     * @param   string      $name   Given name of the Parameter to validate.
+     * @access  private
+     * @param string  $name Given name of the Parameter to validate.
      * @return  bool                Returns true if valid, false if invalid.
      */
-    private function validName( $name ) {
+    private function validName( $name )
+    {
         if ( !isset( $name ) || empty( $name ) ) {
             return false;
         } elseif ( !is_string( $name ) ) {
@@ -173,19 +182,20 @@ class Parameter
      * Returns whether a given variable is valid for this Parameter.
      *
      * @since   0.0.1
-     * @access  private 
-     * @param   mixed       $value  Given value of the Parameter to validate.
+     * @access  private
+     * @param mixed   $value Given value of the Parameter to validate.
      * @return  bool                Returns true if valid, false if invalid.
      */
-    private function validValue( $value ) {
-        if ( !in_array( gettype( $value ), $this->valid_types ) ) 
+    private function validValue( $value )
+    {
+        if ( !in_array( gettype( $value ), $this->valid_types ) )
             return false;
 
         if ( is_array( $this->valid_values ) && count( $this->valid_values ) )
-            if ( !in_array( $value, $this->valid_values ) ) 
+            if ( !in_array( $value, $this->valid_values ) )
                 return false;
 
-        return true;
+            return true;
     }
 
     /**
@@ -195,12 +205,13 @@ class Parameter
      * @access  public
      * @throws  RuntimeException            If Parameter cannot be rendered due to value issues.
      * @throws  UnexpectedValueException    If Parameter cannot be rendered due to typing issues.
-     * @return  bool                        Returns true if valid, false if invalid.
      * @see     {@link http://php.net/manual/en/function.gettype.php}
-     */ 
-    public function valid() {
+     * @return  bool                        Returns true if valid, false if invalid.
+     */
+    public function valid()
+    {
         if ( isset( $this->value ) && !empty( $this->value ) )
-            return $this->validName( $this->name) && $this->validValue( $this->value );
+            return $this->validName( $this->name ) && $this->validValue( $this->value );
 
         return $this->validName( $this->name );
     }
