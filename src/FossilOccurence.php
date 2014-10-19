@@ -66,7 +66,40 @@ class FossilOccurence extends API\Object implements API\ObjectInterface
             if ( property_exists( $this->_cache, 'taxon' ) )
                 return $this->_cache->taxon;
             $this->_cache->taxon = Taxon::factory( $this->taxon_no );
+            $this->_cache->taxon->properties->taxon_name = $this->taxon_name;
+
+            /*
+             * Pre-load all the information that we can get from what's already
+             * been loaded for this FossilOccurence from the PBDB.
+             */
+            $taxa_map = array(
+                    'family' => array(
+                            'id' => $this->properties->family_no,
+                            'name' => $this->properties->family
+                        ),
+                    'order' => array(
+                            'id' => $this->properties->order_no,
+                            'name' => $this->properties->order
+                        ),
+                    'class' => array(
+                            'id' => $this->properties->class_no,
+                            'name' => $this->properties->class
+                        ),
+                    'phylum' => array(
+                            'id' => $this->properties->phylum_no,
+                            'name' => $this->properties->phylum
+                        )
+                );
+
+            foreach ( $taxa_map as $taxon_rank => $taxon_properties ) {
+                $taxon = Taxon::factory( $taxon_properties['id'] );
+                $taxon->properties->taxon_name = $taxon_properties['name'];
+                $this->_cache->taxon->_cache->{ $taxon_rank } = $taxon;
+            }
+
             return $this->_cache->taxon;
+
+            break;
         case 'species':
         case 'genus':
         case 'kingdom':
@@ -75,6 +108,14 @@ class FossilOccurence extends API\Object implements API\ObjectInterface
         case 'order':
         case 'family':
             return $this->taxon->{ $key };
+            break;
+        case 'strata':
+            $this->_cache->strata = new GeologicalStrata;
+            foreach ( $this->properties as $property )
+                if ( in_array( $property->block[0], array( 'strat', 'stratext' ) ) )
+                    $this->_cache->strata->properties->{ $property->pbdb } = $property;
+            return $this->_cache->strata;
+            break;
         }
 
         return null;

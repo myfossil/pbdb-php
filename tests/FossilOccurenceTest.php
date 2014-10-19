@@ -125,14 +125,45 @@ class FossilOccurenceTest extends PHPUnit_Framework_Testcase {
 
     }
 
+    /**
+     * Test that Lithostratigraphic information is loading properly from PBDB.
+     *
+     * @since   0.0.2
+     * @see     {@link http://paleobiodb.org/data1.1/occs/single.json?id=461074}
+     */
+    public function testLithostratigraphy() {
+        $data = array(
+                'formation'        => "Bone Valley",
+                'group'            => null,
+                'member'           => "lower",
+                'scale'            => "group of beds",
+                'zone'             => null, 
+                'section'          => null, 
+                'bed'              => null, 
+                'order'            => null, 
+                'section_regional' => null, 
+                'bed_regional'     => null, 
+                'order_regional'   => null, 
+                'notes'            => "Agricola Fauna"
+            );
+
+        $fossil = FossilOccurence::factory( 461074 );
+
+        $this->assertNotNull( $fossil->strata );
+
+        foreach ( $data as $k => $v )
+            $this->assertEquals( $fossil->strata->{ $k }, $v );
+    }
+
+    /**
+     * Test that Geochronology information is loading properly from PBDB.
+     *
+     * @since   0.0.2
+     */
     /*
     public function testGeochronology() {
         $keys = array( 'eon', 'era', 'period', 'epoch', 'age', 'chron' );
-        $fossil = FossilOccurence::factory( 147937 );
-    }
-
-    public function testLithostratigraphy() {
-        $keys = array( 'supergroup', 'group', 'formation', 'member', 'bed' );
+        $fossil = FossilOccurence::factory( 1001 );
     }
     */
 

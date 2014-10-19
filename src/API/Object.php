@@ -45,8 +45,8 @@ class Object extends Client
      *
      * @since   0.0.1
      * @access  public
-     * @param unknown $key
-     * @return unknown
+     * @param   string  $key
+     * @return  mixed
      */
     public function __get( $key )
     {
@@ -67,11 +67,15 @@ class Object extends Client
 
         // If not a local property, try loading from PBDB
         if ( is_null( $this->properties->{ $key } ) )
-            $this->load( $this->properties->block( $key ) );
+            if ( $this->parameters->id )
+                $this->load( $this->properties->block( $key ) );
 
         // Return whatever we get
-        return $this->properties->{ $key };
+        if ( $this->properties->{ $key } )
+            return $this->properties->{ $key };
 
+        // Couldn't find it, return null...
+        return null;
     }
 
     /**

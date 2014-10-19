@@ -92,18 +92,18 @@ class GeologicalStrata extends API\Object implements API\ObjectInterface
          * PBDB vocab, compacted vocab, parent block (show block), value, description
          */
         $properties = array(
-            array( 'record_type' , 'typ' , 'basic' ) ,
-            array( 'name'        , 'nam' , 'basic' ) ,
-            array( 'rank'        , 'rnk' , 'basic' ) ,
-            array( 'n_colls'     , 'nco' , 'basic', null, "The number of
-                    fossil collections in the database that are associated with
-                    this stratum. Note that if your search is limited to a
-                    particular geographic area, then only collections within
-                    the selected area are counted." ) ,
-            array( 'n_occs'      , 'noc' , 'basic', null, "The number of
-                    fossil occurrences in the database that are associated with
-                    this stratum. The above note about geographic area
-                    selection also applies." ) ,
+            array( 'formation' ),  
+            array( 'stratgroup' ),  
+            array( 'member' ),
+            array( 'stratscale' ),  
+            array( 'zone' ),  
+            array( 'localsection' ),
+            array( 'localbed' ),
+            array( 'localorder' ),
+            array( 'regionalsection' ),
+            array( 'regionalbed' ),
+            array( 'regionalorder' ),
+            array( 'stratcomments' )
         );
         // }}}
 
@@ -114,6 +114,44 @@ class GeologicalStrata extends API\Object implements API\ObjectInterface
         }
 
         return true;
+    }
+
+
+    /**
+     * Custom getter map to proxy between the API values.
+     *
+     * @since   0.0.2
+     * @access  public
+     * @param   string  $key
+     * @return  mixed
+     */
+    public function __get( $key ) {
+        $p = parent::__get( $key );
+        if ( !is_null( $p ) ) return $p;
+
+        $property_map = array(
+                'formation'        => 'formation',
+                'group'            => 'stratgroup',
+                'member'           => 'member',
+                'scale'            => 'stratscale',
+                'zone'             => 'zone',
+                'section'          => 'localsection',
+                'bed'              => 'localbed',
+                'order'            => 'localorder',
+                'section_regional' => 'regionalsection',
+                'bed_regional'     => 'regionalbed',
+                'order_regional'   => 'regionalorder',
+                'notes'            => 'stratcomments'
+            );
+
+        if ( !array_key_exists( $key, $property_map ) )
+            return null;
+
+        return $this->properties->{ $property_map[ $key ] };
+    }
+
+    public static function factory( $id ) {
+        return new GeologicalStrata;
     }
 
 }

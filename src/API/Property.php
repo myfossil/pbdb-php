@@ -127,7 +127,7 @@ class Property
      * @param string  $block
      * @return unknown
      */
-    public static function factory( $pbdb, $compacted, $block )
+    public static function factory( $pbdb, $compacted=null, $block=array() )
     {
         return new Property( $pbdb, $compacted, $block );
     }

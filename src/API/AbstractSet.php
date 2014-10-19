@@ -83,7 +83,8 @@ abstract class AbstractSet extends \SplObjectStorage
     {
         foreach ( $this as $obj ) {
             if ( $this->getHash( $obj ) == $key ) {
-                if ( is_a( $value, 'Property' ) || is_a( $value, 'Parameter' ) ) {
+                if ( is_a( $value, __NAMESPACE__ . '\Property' ) 
+                        || is_a( $value, __NAMESPACE__ . '\Parameter' ) ) {
                     $this->detach( $obj );
                     $this->attach( $value );
                 } else {
