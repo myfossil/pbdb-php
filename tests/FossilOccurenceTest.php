@@ -98,4 +98,15 @@ class FossilOccurenceTest extends PHPUnit_Framework_Testcase {
 
     }
 
+    /*
+    public function testGeochronology() {
+        $keys = array( 'eon', 'era', 'period', 'epoch', 'age', 'chron' );
+        $fossil = FossilOccurence::factory( 147937 );
+    }
+
+    public function testLithostratigraphy() {
+        $keys = array( 'supergroup', 'group', 'formation', 'member', 'bed' );
+    }
+    */
+
 }
