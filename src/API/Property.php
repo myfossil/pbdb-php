@@ -4,7 +4,10 @@
  *
  * @link       http://atmoapps.com
  * @since      0.0.1
+ * @author Brandon Wood <bwood@atmoapps.com>
+ * @package myFOSSIL
  */
+
 
 namespace myFOSSIL\PBDB\API;
 
@@ -18,6 +21,7 @@ namespace myFOSSIL\PBDB\API;
  */
 class Property
 {
+
     /**
      * Name of the Property for the 'pbdb' vocabulary.
      *
@@ -32,7 +36,7 @@ class Property
      * Name of the Property for the 'com' vocabulary.
      *
      * @since   0.0.1
-     * @access  public 
+     * @access  public
      * @see     {@link http://paleobiodb.org/data1.1/formats}
      * @var     string      $compacted
      */
@@ -42,7 +46,7 @@ class Property
      * Name of the parent Property block used in queries.
      *
      * @since   0.0.1
-     * @access  public 
+     * @access  public
      * @var     array   $block
      */
     public $block;
@@ -51,7 +55,7 @@ class Property
      * Name of the Property for the 'dwc' vocabulary.
      *
      * @since   0.0.1
-     * @access  public 
+     * @access  public
      * @see     {@link http://paleobiodb.org/data1.1/formats}
      * @var     string      $darwin_core;
      */
@@ -80,16 +84,17 @@ class Property
      *
      * @since   0.0.1
      * @access  public
-     * @param   string  $pbdb                       PBDB vocab of the property.
-     * @param   string  $compacted      Optional    Compacted vocab of the property.
-     * @param   array   $block          Optional    Parent block of property in API response.
-     * @param   string  $value          Optional    Value of the given Property.
-     * @param   string  $description    Optional    Description of the property.
-     * @param   string  $darwin_core    Optional    Darwin Core version of the property.
-     * @see     {@link http://paleobiodb.org/data1.1} 
+     * @see     {@link http://paleobiodb.org/data1.1}
+     * @param string  $pbdb        PBDB vocab of the property.
+     * @param string  $compacted   (optional) Optional    Compacted vocab of the property.
+     * @param array   $block       (optional) Optional    Parent block of property in API response.
+     * @param string  $value       (optional) Optional    Value of the given Property.
+     * @param string  $description (optional) Optional    Description of the property.
+     * @param string  $darwin_core (optional) Optional    Darwin Core version of the property.
      */
-    public function __construct($pbdb, $compacted=null, $block=array(),
-            $value=null, $description=null, $darwin_core=null) {
+    public function __construct( $pbdb, $compacted=null, $block=array(),
+        $value=null, $description=null, $darwin_core=null )
+    {
         $this->pbdb = $pbdb;
         $this->value = $value;
         $this->compacted = $compacted;
@@ -102,7 +107,13 @@ class Property
         $this->description = $description;
     }
 
-    public function __toString() {
+    /**
+     *
+     *
+     * @return unknown
+     */
+    public function __toString()
+    {
         return sprintf( "%s => %s", $this->pbdb, $this->value );
     }
 
@@ -111,11 +122,13 @@ class Property
      *
      * @since   0.0.1
      * @access  public
-     * @param   string  $pbdb
-     * @param   string  $compacted
-     * @param   string  $block
+     * @param string  $pbdb
+     * @param string  $compacted
+     * @param string  $block
+     * @return unknown
      */
-    public static function factory( $pbdb, $compacted, $block ) {
+    public static function factory( $pbdb, $compacted=null, $block=array() )
+    {
         return new Property( $pbdb, $compacted, $block );
     }
 

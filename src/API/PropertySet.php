@@ -4,7 +4,10 @@
  *
  * @link       http://atmoapps.com
  * @since      0.0.1
+ * @author Brandon Wood <bwood@atmoapps.com>
+ * @package myFOSSIL
  */
+
 
 namespace myFOSSIL\PBDB\API;
 
@@ -18,16 +21,18 @@ namespace myFOSSIL\PBDB\API;
  */
 class PropertySet extends AbstractSet
 {
+
     /**
      * Returns unique identifier used to determine hash in storage array.
      *
      * @since   0.0.1
      * @access  public
-     * @param   Property    $prop   Property object to calculate hash with.
      * @see     \SplObjectStorage::getHash
+     * @param Property $prop Property object to calculate hash with.
      * @return  string      Identifier for property using PBDB vocabulary.
      */
-    public function getHash( $prop ) {
+    public function getHash( $prop )
+    {
         return $prop->pbdb;
     }
 
@@ -36,10 +41,11 @@ class PropertySet extends AbstractSet
      *
      * @since   0.0.1
      * @access  public
-     * @param   mixed       $resp               Parsed JSON object or array with Properties to load.
-     * @return  PropertySet 
+     * @param mixed   $resp Parsed JSON object or array with Properties to load.
+     * @return  PropertySet
      */
-    public function load( $resp ) {
+    public function load( $resp )
+    {
         if ( !array_key_exists( 'records', $resp ) )
             return;
 
@@ -60,7 +66,14 @@ class PropertySet extends AbstractSet
         return $this;
     }
 
-    public function block( $k ) {
+    /**
+     *
+     *
+     * @param unknown $k
+     * @return unknown
+     */
+    public function block( $k )
+    {
         if ( $k = $this->get_as_object( $k ) )
             return $k->block;
     }

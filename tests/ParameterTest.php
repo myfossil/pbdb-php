@@ -1,18 +1,33 @@
 <?php
+/**
+ * ./tests/ParameterTest.php
+ *
+ * @author Brandon Wood <bwood@atmoapps.com>
+ * @package myFOSSIL
+ */
+
 
 use myFOSSIL\PBDB\API;
 
 class ParameterTest extends PHPUnit_Framework_Testcase {
 
-    public function testInstantiation() {
+    /**
+     *
+     */
+    public function testInstantiation()
+    {
         $param = new API\Parameter( 'id', 69296, false );
         $this->assertInstanceOf( 'myFOSSIL\PBDB\API\Parameter', $param );
     }
 
-    public function testParameterSetRender() {
+    /**
+     *
+     */
+    public function testParameterSetRender()
+    {
         $param = new API\Parameter( 'id', 69296, false );
         $this->assertContains( 'id=69296', $param->render() );
-                
+
         $param = new API\Parameter( 'show', 'attr' );
         $this->assertContains( 'show=attr', $param->render() );
 

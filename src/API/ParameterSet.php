@@ -4,7 +4,10 @@
  *
  * @link       http://atmoapps.com
  * @since      0.0.1
+ * @author Brandon Wood <bwood@atmoapps.com>
+ * @package myFOSSIL
  */
+
 
 namespace myFOSSIL\PBDB\API;
 
@@ -18,16 +21,18 @@ namespace myFOSSIL\PBDB\API;
  */
 class ParameterSet extends AbstractSet
 {
+
     /**
      * Returns unique identifier used to determine hash in storage array.
      *
      * @since   0.0.1
      * @access  public
-     * @param   Parameter   $param  Property object to calculate hash with.
      * @see     \SplObjectStorage::getHash
+     * @param Parameter $param Property object to calculate hash with.
      * @return  string      Identifier for parameter using PBDB vocabulary.
      */
-    public function getHash( $param ) {
+    public function getHash( $param )
+    {
         return $param->name;
     }
 
@@ -38,9 +43,10 @@ class ParameterSet extends AbstractSet
      * @access  public
      * @return  string  URL query string
      */
-    public function render() {
+    public function render()
+    {
         $rend = array();
-        foreach ( $this as $param ) 
+        foreach ( $this as $param )
             $rend[] = $param->render();
 
         $result = implode( '&', array_filter( $rend ) );

@@ -4,7 +4,10 @@
  *
  * @link       http://atmoapps.com
  * @since      0.0.1
+ * @author Brandon Wood <bwood@atmoapps.com>
+ * @package myFOSSIL
  */
+
 
 namespace myFOSSIL\PBDB\API;
 
@@ -16,12 +19,13 @@ namespace myFOSSIL\PBDB\API;
  */
 interface ObjectInterface
 {
+
     /**
      * Returns instance of class, loaded with given id.
      *
      * @since   0.0.1
      * @access  public
-     * @param   int     $id     ID of the object to create and load.
+     * @param int     $id ID of the object to create and load.
      */
     public static function factory( $id );
 

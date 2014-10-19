@@ -1,14 +1,29 @@
 <?php
+/**
+ * ./tests/ParameterSetTest.php
+ *
+ * @author Brandon Wood <bwood@atmoapps.com>
+ * @package myFOSSIL
+ */
+
 
 use myFOSSIL\PBDB\API;
 
 class ParameterSetTest extends PHPUnit_Framework_Testcase {
 
-    public function testInstantiation() {
+    /**
+     *
+     */
+    public function testInstantiation()
+    {
         $this->assertInstanceOf( 'myFOSSIL\PBDB\API\ParameterSet', new API\ParameterSet );
     }
 
-    public function testParameterSetRender() {
+    /**
+     *
+     */
+    public function testParameterSetRender()
+    {
         // Setup.
         $params = new API\ParameterSet();
         $params->attach( new API\Parameter( 'id', 69296, false ) );
@@ -27,13 +42,17 @@ class ParameterSetTest extends PHPUnit_Framework_Testcase {
         $this->assertEmpty( $params->render() );
     }
 
-    public function testParameterReset() {
+    /**
+     *
+     */
+    public function testParameterReset()
+    {
         // Setup.
         $params = new API\ParameterSet();
         $params->attach( new API\Parameter( 'id', 69296, false ) );
         $params->attach( new API\Parameter( 'show', 'attr' ) );
         $params->attach( new API\Parameter( 'empty', null ) );
-    
+
         $this->assertEquals( 3, $params->count() );
 
         $params->reset();
@@ -43,7 +62,8 @@ class ParameterSetTest extends PHPUnit_Framework_Testcase {
     /**
      * Test that we can get API\Parameters by ID.
      */
-    public function testParameterGet() {
+    public function testParameterGet()
+    {
         // Setup.
         $params = new API\ParameterSet();
         $params->attach( new API\Parameter( 'id', 69296, false ) );
@@ -57,7 +77,11 @@ class ParameterSetTest extends PHPUnit_Framework_Testcase {
         $this->assertNull( $params->noexist );
     }
 
-    public function testParameterSetSetter() {
+    /**
+     *
+     */
+    public function testParameterSetSetter()
+    {
         // Setup.
         $params = new API\ParameterSet();
         $params->attach( new API\Parameter( 'id', 69296, false ) );

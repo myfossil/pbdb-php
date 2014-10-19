@@ -4,7 +4,10 @@
  *
  * @link       http://atmoapps.com
  * @since      0.0.1
+ * @author Brandon Wood <bwood@atmoapps.com>
+ * @package myFOSSIL
  */
+
 
 namespace myFOSSIL\PBDB\API;
 
@@ -16,14 +19,16 @@ namespace myFOSSIL\PBDB\API;
  * @since      0.0.1
  * @author     Brandon Wood <bwood@atmoapps.com>
  */
-abstract class AbstractSet extends \SplObjectStorage 
+abstract class AbstractSet extends \SplObjectStorage
 {
+
     /**
      * Remove all objects in the Set.
      *
      * @since   0.0.1
      */
-    public function reset() {
+    public function reset()
+    {
         $this->removeAll( $this );
     }
 
@@ -34,24 +39,32 @@ abstract class AbstractSet extends \SplObjectStorage
      * from given parameter or property sets.
      *
      * @since   0.0.1
-     * @param   mixed   $key        Hash resulting from obj::getHash()
+     * @param mixed   $key Hash resulting from obj::getHash()
      * @return  mixed               Object with a given hash key.
      */
-    public function __get( $key ) {
+    public function __get( $key )
+    {
         foreach ( $this as $obj )
             if ( $this->getHash( $obj ) == $key )
                 if ( property_exists( $obj, 'value' ) )
                     return $obj->value;
                 else
                     return $obj;
-        return null;
+                return null;
     }
 
-    public function get_as_object( $key ) {
+    /**
+     *
+     *
+     * @param unknown $key
+     * @return unknown
+     */
+    public function get_as_object( $key )
+    {
         foreach ( $this as $obj )
             if ( $this->getHash( $obj ) == $key )
                 return $obj;
-        return null;
+            return null;
     }
 
 
@@ -62,14 +75,16 @@ abstract class AbstractSet extends \SplObjectStorage
      * from given parameter or property sets.
      *
      * @since   0.0.1
-     * @param   mixed   $key        Hash resulting from obj::getHash()
-     * @param   mixed   $value      value
+     * @param mixed   $key   Hash resulting from obj::getHash()
+     * @param mixed   $value value
      * @return  mixed               Object with a given hash key.
      */
-    public function __set( $key, $value ) {
+    public function __set( $key, $value )
+    {
         foreach ( $this as $obj ) {
             if ( $this->getHash( $obj ) == $key ) {
-                if ( is_a( $value, 'Property' ) || is_a( $value, 'Parameter' ) ) {
+                if ( is_a( $value, __NAMESPACE__ . '\Property' ) 
+                        || is_a( $value, __NAMESPACE__ . '\Parameter' ) ) {
                     $this->detach( $obj );
                     $this->attach( $value );
                 } else {
@@ -80,7 +95,7 @@ abstract class AbstractSet extends \SplObjectStorage
                 return $value;
             }
         }
-        
+
         return $value;
     }
 }
