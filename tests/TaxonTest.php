@@ -44,36 +44,6 @@ class TaxonTest extends PHPUnit_Framework_Testcase {
         }
     }
 
-    /**
-     *
-     */
-    public function testParentRetrieve()
-    {
-        $taxon = new Taxon();
-        $taxon->pbdbid = 69296;
-
-        $test_values = array(
-            'Dascilloidea',
-            'Elateriformia',
-            'Polyphaga',
-            'Coleoptera',
-            'Coleopterida',
-            'Endopterygota',
-            'Neoptera',
-            'Pterygota',
-            'Dicondylia',
-            'Insecta',
-            'Hexapoda',
-            'Pancrustacea',
-            'Mandibulata',
-        );
-
-        foreach ( $test_values as $taxon_name ) {
-            $taxon = $taxon->parent;
-            $this->assertEquals( $taxon_name, $taxon->taxon_name );
-            $this->assertEquals( $taxon_name, $taxon->name );
-        }
-    }
 
     /**
      *

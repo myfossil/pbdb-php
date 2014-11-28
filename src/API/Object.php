@@ -78,6 +78,10 @@ class Object extends Client
         return null;
     }
 
+    public function __isset( $key ) {
+        return $this->{ $key } !== null;
+    }
+
     /**
      * Custom setter map to proxy between the API values.
      *

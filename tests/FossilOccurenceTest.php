@@ -114,7 +114,6 @@ class FossilOccurenceTest extends PHPUnit_Framework_Testcase {
             $rank_parent = $valid_ranks[ ( $rank_no + 1 ) ];
             $taxon_no    = (int) $fossil_datum->taxon_no;
 
-
             $f = FossilOccurence::factory( $fossil_no );
             $this->assertEquals( $rank, $f->taxon->rank );
             $this->assertEquals( $taxon_no, $f->taxon_no );
