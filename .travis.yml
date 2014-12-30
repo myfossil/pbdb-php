@@ -1,5 +1,9 @@
 language: php
 
+# Trigger container based infrastructure
+# See http://docs.travis-ci.com/user/workers/container-based-infrastructure/
+sudo: false
+
 php:
     - 5.4
     - 5.5
