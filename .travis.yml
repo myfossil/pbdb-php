@@ -1,17 +1,14 @@
 language: php
-
-# Trigger container based infrastructure
-# See http://docs.travis-ci.com/user/workers/container-based-infrastructure/
 sudo: false
-
 php:
-    - 5.4
-    - 5.5
-    - 5.6
-    - hhvm
-
+- 5.4
+- 5.5
+- 5.6
+- hhvm
 before_script:
-    - composer self-update
-    - composer install --prefer-source --no-interaction --dev
-
+- composer self-update
+- composer install --prefer-source --no-interaction --dev
 script: phpunit
+notifications:
+  slack:
+    secure: erX7sgC+5HFlH19j9ZonRYsJMAEM7DmIt0sUjeqA6AXzVMc8Zn1UaEbvim/fcSxhUnu0869G/4E0qALOvHf4YpYiCX+tucEF7lFltMpF6TU06VKEHA4kjWQ3EuOPdkJNuSi2huUdP455+S2eqosJKpBQNs2niXQNpX+3cGhBDYs=
